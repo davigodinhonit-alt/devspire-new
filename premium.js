@@ -13,8 +13,8 @@
     var total = document.body.scrollHeight - window.innerHeight;
     bar.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
     /* Navbar glass on scroll */
-    var nav = document.querySelector('nav');
-    if (nav) nav.classList.toggle('scrolled', window.scrollY > 50);
+    var nav = document.querySelector('nav#navbar');
+    if (nav) nav.classList.toggle('scrolled', window.scrollY > 20);
   }, { passive: true });
 
   /* ── Stagger observer ───────────────────────── */
@@ -42,34 +42,39 @@
 
   /* Trigger typing when terminal card enters viewport */
   var typed = false;
-  new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (!e.isIntersecting || typed) return;
-      typed = true;
-      e.currentTarget.disconnect();
-      /* Find prompt-line elements inside terminal cards */
-      document.querySelectorAll('.terminal-card code, .terminal-card .prompt, .terminal-card pre').forEach(function (code, i) {
-        var orig = code.textContent;
-        setTimeout(function () { typeEl(code, orig, 22); }, i * 320);
+  var termCard = document.querySelector('.terminal-card');
+  if (termCard) {
+    var termObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting || typed) return;
+        typed = true;
+        termObserver.disconnect();
+        document.querySelectorAll('.terminal-card code, .terminal-card .prompt, .terminal-card pre').forEach(function (code, i) {
+          var orig = code.textContent;
+          setTimeout(function () { typeEl(code, orig, 22); }, i * 320);
+        });
       });
-    });
-  }, { threshold: 0.3 }).observe(document.querySelector('.terminal-card') || document.body);
+    }, { threshold: 0.3 });
+    termObserver.observe(termCard);
+  }
 
   /* ── Generic fade-up for remaining sections ─── */
+  var fadeObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'none';
+      }
+    });
+  }, { threshold: 0.08 });
+
   var fadeEls = document.querySelectorAll('[class*="section"]:not(#hero), .features-grid, .cta-section');
   fadeEls.forEach(function (el) {
-    if (el.style.opacity !== '') return; /* skip if already animated */
+    if (el.style.opacity !== '') return;
     el.style.opacity = '0';
     el.style.transform = 'translateY(28px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          e.target.style.opacity = '1';
-          e.target.style.transform = 'none';
-        }
-      });
-    }, { threshold: 0.08 }).observe(el);
+    fadeObserver.observe(el);
   });
 
 })();

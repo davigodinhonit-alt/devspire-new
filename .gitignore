@@ -1,0 +1,6 @@
+.vercel
+WhatsApp Image*
+__pycache__/
+*.pyc
+venv/
+.env

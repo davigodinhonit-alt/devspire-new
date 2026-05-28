@@ -4,11 +4,67 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DevSpire — AI-Powered Cybersecurity</title>
+  <meta name="description" content="DevSpire combines AI automation with elite human expertise to deliver end-to-end cybersecurity — penetration testing, red team ops, threat intelligence, and incident response across Ireland and Europe." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://devspire.ie/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="DevSpire — AI-Powered Cybersecurity" />
+  <meta property="og:description" content="AI-driven penetration testing, red team operations, and end-to-end security for modern organisations." />
+  <meta property="og:url" content="https://devspire.ie/" />
+  <meta property="og:image" content="https://devspire.ie/logo.jpeg" />
+  <meta property="og:locale" content="en_IE" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="DevSpire — AI-Powered Cybersecurity" />
+  <meta name="twitter:description" content="AI-driven penetration testing, red team operations, and end-to-end security for modern organisations." />
+  <meta name="twitter:image" content="https://devspire.ie/logo.jpeg" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="logo.jpeg" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── SKIP LINK ── */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 16px;
+      z-index: 10000;
+      background: var(--navy, #0D1B2A);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 0 0 8px 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: top .2s;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+
+    /* ── SR-ONLY ── */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ── FOCUS VISIBLE ── */
+    :focus-visible {
+      outline: 2px solid var(--blue, #00A8C8);
+      outline-offset: 2px;
+    }
 
     :root {
       --navy: #0D1B2A;
@@ -128,14 +184,20 @@
       gap: 5px;
       cursor: pointer;
       padding: 4px;
+      background: none;
+      border: none;
+      -webkit-appearance: none;
     }
     .hamburger span {
       display: block;
       width: 24px; height: 2px;
       background: var(--navy);
       border-radius: 2px;
-      transition: .3s;
+      transition: transform .3s, opacity .3s;
     }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     /* ── HERO ── */
     #hero {
@@ -877,13 +939,15 @@
       color: #E2E8F0;
       font-family: inherit;
       transition: border-color .2s, background .2s;
-      outline: none;
+      outline: 2px solid transparent;
+      outline-offset: 2px;
     }
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
+    .form-group input:focus-visible,
+    .form-group select:focus-visible,
+    .form-group textarea:focus-visible {
       border-color: var(--blue);
       background: rgba(37,99,235,.08);
+      outline: 2px solid var(--blue);
     }
     .form-group input::placeholder,
     .form-group textarea::placeholder { color: #475569; }
@@ -955,6 +1019,10 @@
       transition: color .2s;
     }
     .footer-col ul a:hover { color: #94A3B8; }
+    .footer-col ul span { font-size: .875rem; color: #64748B; }
+    .footer-legal-note { font-size: .8rem; color: #64748B; margin-bottom: 12px; line-height: 1.5; }
+    .footer-legal-note a { color: #60A5FA; text-decoration: none; }
+    .footer-legal-note a:hover { text-decoration: underline; }
     .footer-bottom {
       border-top: 1px solid rgba(255,255,255,.05);
       padding-top: 24px;
@@ -1048,14 +1116,35 @@
     }
   </style>
 <link rel="stylesheet" href="premium.css">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "DevSpire",
+  "url": "https://devspire.ie",
+  "logo": "https://devspire.ie/logo.jpeg",
+  "description": "AI-powered cybersecurity firm based in Dublin, Ireland. Penetration testing, red team operations, threat intelligence, and incident response.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Dublin",
+    "addressCountry": "IE"
+  },
+  "sameAs": []
+}
+</script>
 </head>
 <body>
+
+<!-- Skip to content -->
+<a href="#services" class="skip-link">Skip to main content</a>
 
 <!-- NAVBAR -->
 <nav id="navbar">
   <div class="nav-inner">
     <a href="#hero" class="logo">
-      <img src="logo.jpeg" alt="DevSpire" style="height:56px; width:auto; object-fit:contain; mix-blend-mode:multiply;" />
+      <img src="logo.jpeg" alt="DevSpire" class="logo-img" />
     </a>
     <ul class="nav-links">
       <li><a href="#services">Services</a></li>
@@ -1064,20 +1153,20 @@
       <li><a href="#segments">Clients</a></li>
       <li><a href="#contact" class="nav-cta">Get Assessment</a></li>
     </ul>
-    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu" type="button">
       <span></span><span></span><span></span>
-    </div>
+    </button>
   </div>
 </nav>
 
 <!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobile-menu">
+<nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
   <a href="#services" onclick="toggleMenu()">Services</a>
   <a href="#platform" onclick="toggleMenu()">AI Platform</a>
   <a href="#why" onclick="toggleMenu()">Why Us</a>
   <a href="#segments" onclick="toggleMenu()">Clients</a>
   <a href="#contact" onclick="toggleMenu()">Get Assessment</a>
-</div>
+</nav>
 
 <!-- HERO -->
 <section id="hero">
@@ -1091,8 +1180,8 @@
         AI-Powered · Dublin, Ireland
       </div>
       <h1 class="hero-title">
-        Automated Security<br/>
-        for the <span class="accent">Modern</span><br/>
+        Automated Security<br>
+        for the <span class="accent">Modern</span><br>
         <span class="accent-em">Threat Landscape</span>
       </h1>
       <p class="hero-sub">
@@ -1116,12 +1205,13 @@
           <div class="term-dot"></div>
           <span class="term-title">devspire-ai — pentest-agent v3.1</span>
         </div>
-        <div id="terminal-body" style="height: 250px; overflow-y: auto; padding: 15px; font-family: monospace; font-size: 13px; background: rgba(0,0,0,0.4);">
+        <div id="terminal-body" class="term-body">
           <div class="term-line"><span class="term-prompt">$</span><span class="term-cmd">devspire ready. Waiting for target...</span></div>
         </div>
-        <div style="padding: 12px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 10px; background: rgba(13, 27, 42, 0.8);">
-          <input type="text" id="target-url" placeholder="Enter target (e.g. google.com)" style="flex: 1; background: rgba(255,255,255,0.05); border: 1px solid #2563EB; color: #fff; padding: 8px 12px; border-radius: 6px; outline: none; font-size: 14px;">
-          <button onclick="startAssessment()" class="btn-primary" style="padding: 8px 20px; font-size: 14px; margin: 0;">Scan Now</button>
+        <div class="term-input-bar">
+          <label for="target-url" class="sr-only">Target URL for security scan</label>
+          <input type="text" id="target-url" name="target_url" class="term-input" placeholder="Enter target (e.g. google.com)" autocomplete="off">
+          <button onclick="startAssessment()" class="btn-primary term-scan-btn" type="button">Scan Now</button>
         </div>
       </div>
     </div>
@@ -1155,7 +1245,7 @@
   <div class="section-inner">
     <div class="section-head center">
       <span class="section-label">What We Do</span>
-      <h2 class="section-title">Comprehensive Security,<br/>Fully Automated by AI</h2>
+      <h2 class="section-title">Comprehensive Security,<br>Fully Automated by AI</h2>
       <p class="section-sub">From initial reconnaissance to final remediation, our AI platform orchestrates every stage of your security assessment — with human experts validating every critical finding.</p>
     </div>
     <div class="services-grid">
@@ -1362,7 +1452,7 @@
   <div class="section-inner">
     <div class="section-head center">
       <span class="section-label">Why DevSpire</span>
-      <h2 class="section-title">Built for the Demands<br/>of Modern Security</h2>
+      <h2 class="section-title">Built for the Demands<br>of Modern Security</h2>
     </div>
     <div class="why-grid">
       <div class="why-card reveal">
@@ -1412,7 +1502,7 @@
   <div class="section-inner">
     <div class="section-head center">
       <span class="section-label">Who We Serve</span>
-      <h2 class="section-title">Security Solutions for<br/>Every Organisation</h2>
+      <h2 class="section-title">Security Solutions for<br>Every Organisation</h2>
       <p class="section-sub">Whether you're a multinational corporation, a growing startup, or a government body, DevSpire has a tailored security programme for your needs.</p>
     </div>
     <div class="segments-grid">
@@ -1458,7 +1548,7 @@
   <div class="section-inner">
     <div class="section-head center">
       <span class="section-label">How It Works</span>
-      <h2 class="section-title">From First Contact<br/>to Full Remediation</h2>
+      <h2 class="section-title">From First Contact<br>to Full Remediation</h2>
     </div>
     <div class="process-grid">
       <div class="process-step reveal">
@@ -1490,7 +1580,7 @@
   <div class="section-inner">
     <div class="section-head center">
       <span class="section-label">Client Stories</span>
-      <h2 class="section-title">Trusted by Security-Conscious<br/>Organisations Across Europe</h2>
+      <h2 class="section-title">Trusted by Security-Conscious<br>Organisations Across Europe</h2>
     </div>
     <div class="testimonials-grid">
       <div class="testimonial-card reveal">
@@ -1539,7 +1629,7 @@
   <div class="contact-inner">
     <div class="contact-info">
       <span class="section-label platform-label">Get in Touch</span>
-      <h2 class="section-title contact-title">Start Your Free<br/>Security Assessment</h2>
+      <h2 class="section-title contact-title">Start Your Free<br>Security Assessment</h2>
       <p class="section-sub contact-sub">Tell us about your organisation and we'll schedule a complimentary 30-minute security consultation with one of our senior engineers.</p>
       <div class="contact-details">
 
@@ -1562,25 +1652,25 @@
       <form id="contactForm" onsubmit="handleSubmit(event)">
         <div class="form-row">
           <div class="form-group">
-            <label>First Name</label>
-            <input type="text" placeholder="John" required />
+            <label for="cf-first-name">First Name</label>
+            <input type="text" id="cf-first-name" name="first_name" placeholder="John" required autocomplete="given-name" />
           </div>
           <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" placeholder="Smith" required />
+            <label for="cf-last-name">Last Name</label>
+            <input type="text" id="cf-last-name" name="last_name" placeholder="Smith" required autocomplete="family-name" />
           </div>
         </div>
         <div class="form-group">
-          <label>Work Email</label>
-          <input type="email" placeholder="john@company.com" required />
+          <label for="cf-email">Work Email</label>
+          <input type="email" id="cf-email" name="email" placeholder="john@company.com" required autocomplete="email" />
         </div>
         <div class="form-group">
-          <label>Company</label>
-          <input type="text" placeholder="Your Organisation" required />
+          <label for="cf-company">Company</label>
+          <input type="text" id="cf-company" name="company" placeholder="Your Organisation" required autocomplete="organization" />
         </div>
         <div class="form-group">
-          <label>Service of Interest</label>
-          <select>
+          <label for="cf-service">Service of Interest</label>
+          <select id="cf-service" name="service">
             <option value="">Select a service...</option>
             <option>Penetration Testing</option>
             <option>Red Team Operations</option>
@@ -1593,18 +1683,18 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Tell us about your needs</label>
-          <textarea placeholder="Describe your environment, current concerns, or what you'd like to assess..."></textarea>
+          <label for="cf-message">Tell us about your needs</label>
+          <textarea id="cf-message" name="message" placeholder="Describe your environment, current concerns, or what you'd like to assess..."></textarea>
         </div>
-        <button type="submit" class="form-submit">Request Free Assessment →</button>
+        <button type="submit" class="form-submit" id="cf-submit">Request Free Assessment →</button>
       </form>
       <div class="form-success" id="formSuccess">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 12px; display:block">
+        <svg class="form-success-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
           <polyline points="22 4 12 14.01 9 11.01"/>
         </svg>
-        <h3 style="font-size:1.1rem; margin-bottom:8px">Request Received!</h3>
-        <p style="font-size:.875rem; color:#64748B; font-weight:400">A senior DevSpire engineer will contact you within 24 hours to schedule your free consultation.</p>
+        <h3 class="form-success-title">Request Received!</h3>
+        <p class="form-success-text">A senior DevSpire engineer will contact you within 24 hours to schedule your free consultation.</p>
       </div>
     </div>
   </div>
@@ -1616,7 +1706,7 @@
     <div class="footer-top">
       <div class="footer-brand">
         <a href="#hero" class="logo">
-          <img src="logo.jpeg" alt="DevSpire" style="height:64px; width:auto; object-fit:contain; mix-blend-mode:multiply; background:#fff; border-radius:12px; padding:4px 8px;" />
+          <img src="logo.jpeg" alt="DevSpire" class="logo-img logo-img-footer" />
         </a>
         <p>Ireland's leading AI-powered cybersecurity firm, protecting organisations from the threats of tomorrow — today.</p>
       </div>
@@ -1636,22 +1726,22 @@
           <li><a href="#why">About DevSpire</a></li>
           <li><a href="#platform">AI Platform</a></li>
           <li><a href="#testimonials">Case Studies</a></li>
-          <li><a href="#contact">Careers</a></li>
-          <li><a href="#contact">Blog</a></li>
+          <li><a href="#contact">Contact Us</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Legal</h4>
+        <p class="footer-legal-note">Legal documents available upon request — <a href="mailto:security@devspire.ie">security@devspire.ie</a></p>
         <ul>
-          <li><a href="#contact">Privacy Policy</a></li>
-          <li><a href="#contact">Terms of Service</a></li>
-          <li><a href="#contact">GDPR Compliance</a></li>
-          <li><a href="#contact">Responsible Disclosure</a></li>
+          <li><span>Privacy Policy</span></li>
+          <li><span>Terms of Service</span></li>
+          <li><span>GDPR Compliance</span></li>
+          <li><span>Responsible Disclosure</span></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-copy">© 2025 DevSpire Limited. Registered in Ireland. All rights reserved.</p>
+      <p class="footer-copy">© 2026 DevSpire Limited. Registered in Ireland. All rights reserved.</p>
       <div class="footer-certs">
         <span class="cert-badge">CREST</span>
         <span class="cert-badge">ISO 27001</span>
@@ -1663,38 +1753,22 @@
 </footer>
 
 <script>
-  // Navbar scroll effect
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 20);
-  });
-
-  // Mobile menu toggle
-  function toggleMenu() {
-    document.getElementById('mobile-menu').classList.toggle('open');
+  /* ── Helpers ── */
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
   }
 
-  // Close menu on outside click
-  document.addEventListener('click', (e) => {
-    const menu = document.getElementById('mobile-menu');
-    const hamburger = document.getElementById('hamburger');
-    if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
-      menu.classList.remove('open');
-    }
-  });
-
-  // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
+  /* ── Scroll reveal (single shared observer) ── */
+  const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-  // Counter animation
+  /* ── Counter animation ── */
   function animateCounter(el) {
     const target = parseInt(el.dataset.target);
     const duration = 1800;
@@ -1721,38 +1795,101 @@
   const statsSection = document.getElementById('stats');
   if (statsSection) statsObserver.observe(statsSection);
 
-  // Form submit
+  /* ── Mobile menu toggle with aria + hamburger animation ── */
+  function toggleMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const hamburger = document.getElementById('hamburger');
+    const isOpen = menu.classList.toggle('open');
+    hamburger.classList.toggle('active', isOpen);
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  }
+
+  // Close menu on outside click
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('mobile-menu');
+    const hamburger = document.getElementById('hamburger');
+    if (menu.classList.contains('open') && !menu.contains(e.target) && !hamburger.contains(e.target)) {
+      toggleMenu();
+    }
+  });
+
+  // Close menu on ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const menu = document.getElementById('mobile-menu');
+      if (menu.classList.contains('open')) toggleMenu();
+    }
+  });
+
+  /* ── Form submit with loading state ── */
   function handleSubmit(e) {
     e.preventDefault();
     const form = document.getElementById('contactForm');
     const success = document.getElementById('formSuccess');
-    form.style.display = 'none';
-    success.style.display = 'block';
+    const btn = document.getElementById('cf-submit');
+
+    // Show loading state
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    // Collect form data for future backend integration
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    // Simulate network delay then show success
+    setTimeout(() => {
+      form.style.display = 'none';
+      success.style.display = 'block';
+    }, 800);
   }
 
+  /* ── Terminal scanner (XSS-safe, graceful fallback) ── */
+  const DEVSPIRE_API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000'
+    : 'https://devspire-api.onrender.com';
+
+  let activePoll = null;
+
   async function startAssessment() {
-    const target = document.getElementById('target-url').value;
-    if (!target) return alert('Please enter a target URL');
+    const targetInput = document.getElementById('target-url');
+    const target = targetInput.value.trim();
+    if (!target) { targetInput.focus(); return; }
 
     const termBody = document.getElementById('terminal-body');
     termBody.innerHTML = '';
 
+    if (activePoll) { clearInterval(activePoll); activePoll = null; }
+
     const addLine = (text, type = 'output') => {
       const line = document.createElement('div');
       line.className = 'term-line';
-      if (type === 'success') line.innerHTML = `<span class="term-success">✔ ${text}</span>`;
-      else if (type === 'warn') line.innerHTML = `<span class="term-warn">⚠ ${text}</span>`;
-      else if (type === 'cmd') line.innerHTML = `<span class="term-prompt">$</span><span class="term-cmd">${text}</span>`;
-      else line.innerHTML = `<span class="term-output">${text}</span>`;
+      const safe = escapeHtml(text);
+      if (type === 'success') line.innerHTML = '<span class="term-success">\u2714 ' + safe + '</span>';
+      else if (type === 'warn') line.innerHTML = '<span class="term-warn">\u26A0 ' + safe + '</span>';
+      else if (type === 'cmd') line.innerHTML = '<span class="term-prompt">$</span><span class="term-cmd">' + safe + '</span>';
+      else line.innerHTML = '<span class="term-output">' + safe + '</span>';
       termBody.appendChild(line);
       termBody.scrollTop = termBody.scrollHeight;
     };
 
-    addLine(`devspire scan --target ${target} --mode full`, 'cmd');
+    // Validate input — reject localhost, private IPs
+    const cleaned = target.replace(/^https?:\/\//, '').split('/')[0].split(':')[0];
+    if (/^(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|0\.0\.0\.0|::1)/.test(cleaned)) {
+      addLine('Error: scanning private/local addresses is not allowed.', 'warn');
+      return;
+    }
+
+    addLine('devspire scan --target ' + escapeHtml(target) + ' --mode full', 'cmd');
     addLine('Initialising AI threat model...');
 
+    if (!DEVSPIRE_API) {
+      // Demo mode when no backend is configured
+      await demoScan(addLine, target);
+      return;
+    }
+
     try {
-      const response = await fetch('http://localhost:5000/api/scan', {
+      const response = await fetch(DEVSPIRE_API + '/api/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ target })
@@ -1760,42 +1897,108 @@
       const data = await response.json();
       const scanId = data.scan_id;
 
-      const poll = setInterval(async () => {
-        const res = await fetch(`http://localhost:5000/api/scan/${scanId}`);
-        const scanData = await res.json();
+      activePoll = setInterval(async () => {
+        try {
+          const res = await fetch(DEVSPIRE_API + '/api/scan/' + encodeURIComponent(scanId));
+          const scanData = await res.json();
 
-        if (scanData.status === 'completed') {
-          clearInterval(poll);
-          addLine('Scan completed successfully!', 'success');
+          if (scanData.status === 'completed') {
+            clearInterval(activePoll);
+            activePoll = null;
+            addLine('Scan completed successfully!', 'success');
+            addLine('');
 
-          const results = scanData.results;
-          addLine(`Found ${results.open_ports.length} open ports.`);
-          results.vulnerabilities.forEach(v => {
-            addLine(`${v.type} [${v.severity}]`, v.severity === 'High' ? 'warn' : 'output');
-          });
+            const summary = scanData.results.summary;
+            const modules = scanData.results.modules;
 
-          addLine(`Report generated — report_${scanId}.pdf`, 'success');
-          const btn = document.createElement('button');
-          btn.innerText = 'Download PDF Report';
-          btn.className = 'btn-primary';
-          btn.style.marginTop = '10px';
-          btn.onclick = () => window.location.href = `http://localhost:5000/api/report/${scanId}`;
-          termBody.appendChild(btn);
-        } else {
-          addLine('Scanning in progress...');
+            // Show summary
+            if (summary.critical > 0) addLine('CRITICAL: ' + summary.critical + ' findings', 'warn');
+            if (summary.high > 0) addLine('HIGH: ' + summary.high + ' findings', 'warn');
+            if (summary.medium > 0) addLine('MEDIUM: ' + summary.medium + ' findings', 'warn');
+            if (summary.low > 0) addLine('LOW: ' + summary.low + ' findings', 'output');
+            if (summary.info > 0) addLine('INFO: ' + summary.info + ' findings', 'output');
+
+            // Show open ports
+            const portData = modules.port_scan;
+            if (portData && portData.open_ports) {
+              addLine('Open ports: ' + portData.open_ports.map(p => p.port + ' (' + p.service + ')').join(', '));
+            }
+
+            // Show tech stack
+            const techData = modules.tech_detect;
+            if (techData && techData.technologies) {
+              const techs = Object.values(techData.technologies).flat();
+              if (techs.length) addLine('Technologies: ' + techs.join(', '));
+            }
+
+            // Show top findings
+            addLine('');
+            for (const [modName, modData] of Object.entries(modules)) {
+              if (modData.findings && modData.findings.length > 0) {
+                modData.findings.forEach(f => {
+                  const sevType = (f.severity === 'critical' || f.severity === 'high') ? 'warn' : 'output';
+                  addLine('[' + f.severity.toUpperCase() + '] ' + f.title, sevType);
+                });
+              }
+            }
+
+            addLine('');
+            addLine('Report generated — report_' + escapeHtml(scanId) + '.pdf', 'success');
+            const btn = document.createElement('button');
+            btn.textContent = 'Download PDF Report';
+            btn.className = 'btn-primary';
+            btn.style.marginTop = '10px';
+            btn.onclick = () => { window.location.href = DEVSPIRE_API + '/api/report/' + encodeURIComponent(scanId); };
+            termBody.appendChild(btn);
+          } else if (scanData.status === 'error') {
+            clearInterval(activePoll);
+            activePoll = null;
+            addLine('Scan failed: ' + (scanData.error || 'Unknown error'), 'warn');
+          } else {
+            addLine('Scanning... ' + (scanData.progress || 0) + '%');
+          }
+        } catch {
+          clearInterval(activePoll);
+          activePoll = null;
+          addLine('Connection lost during scan. Please retry.', 'warn');
         }
       }, 3000);
 
-    } catch (err) {
-      addLine('Error connecting to DevSpire API', 'warn');
-      console.error(err);
+    } catch {
+      addLine('Could not reach DevSpire API. Running demo scan...', 'warn');
+      await demoScan(addLine, target);
     }
   }
 
-  // Smooth scroll for nav links
+  /* ── Demo scan for when backend is unavailable ── */
+  async function demoScan(addLine, target) {
+    const steps = [
+      { text: 'Resolving target: ' + escapeHtml(target), delay: 600 },
+      { text: 'Running port discovery (TCP SYN)...', delay: 900 },
+      { text: 'Found 4 open ports: 22, 80, 443, 8080', delay: 700 },
+      { text: 'Fingerprinting services...', delay: 800 },
+      { text: 'SSH OpenSSH 8.9 detected on :22', delay: 400, type: 'output' },
+      { text: 'HTTPS (TLS 1.3) on :443', delay: 400, type: 'success' },
+      { text: 'HTTP redirect missing on :80', delay: 400, type: 'warn' },
+      { text: 'Running vulnerability assessment...', delay: 1000 },
+      { text: 'CVE-2024-3094 — Not vulnerable', delay: 500, type: 'success' },
+      { text: 'Missing security headers (X-Frame-Options, CSP)', delay: 500, type: 'warn' },
+      { text: 'Weak cipher suites detected (TLS_RSA_WITH_AES_128_CBC_SHA)', delay: 500, type: 'warn' },
+      { text: 'AI analysis complete — 2 medium, 1 low severity findings', delay: 700, type: 'success' },
+      { text: 'Full report available upon engagement. Contact us for details.', delay: 400, type: 'success' }
+    ];
+
+    for (const step of steps) {
+      await new Promise(r => setTimeout(r, step.delay));
+      addLine(step.text, step.type || 'output');
+    }
+  }
+
+  /* ── Smooth scroll for nav links ── */
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
-      const target = document.querySelector(link.getAttribute('href'));
+      const href = link.getAttribute('href');
+      const target = document.querySelector(href);
       if (target) {
         e.preventDefault();
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
