@@ -28,1972 +28,1015 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── SKIP LINK ── */
-    .skip-link {
-      position: absolute;
-      top: -100%;
-      left: 16px;
-      z-index: 10000;
-      background: var(--navy, #0D1B2A);
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 0 0 8px 8px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: top .2s;
-    }
-    .skip-link:focus {
-      top: 0;
-    }
-
-    /* ── SR-ONLY ── */
-    .sr-only {
-      position: absolute;
-      width: 1px; height: 1px;
-      padding: 0; margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    /* ── FOCUS VISIBLE ── */
-    :focus-visible {
-      outline: 2px solid var(--blue, #00A8C8);
-      outline-offset: 2px;
-    }
-
     :root {
-      --navy: #0D1B2A;
-      --navy-mid: #1B263B;
-      --blue: #00A8C8;
-      --blue-light: #48CAE4;
-      --emerald: #06D6A0;
-      --emerald-light: #70E000;
-      --bg: #FFFFFF;
-      --bg-alt: #F8FAFC;
-      --bg-dark: #F1F5F9;
-      --text: #1E293B;
-      --text-muted: #64748B;
-      --border: #E2E8F0;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
-      --shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.05);
-      --shadow-xl: 0 20px 25px -5px rgba(0,0,0,.1), 0 10px 10px -5px rgba(0,0,0,.04);
-      --radius: 12px;
-      --radius-lg: 20px;
-    }
-
-    /* Noise Overlay */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: url('https://grainy-gradients.vercel.app/noise.svg');
-      opacity: 0.03;
-      pointer-events: none;
-      z-index: 9999;
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #0d1321;
+      --bg-card: #1a1f35;
+      --bg-card-hover: #222842;
+      --accent: #00d4aa;
+      --accent-secondary: #00a8c8;
+      --accent-glow: rgba(0, 212, 170, 0.15);
+      --text-primary: #ffffff;
+      --text-secondary: #8892b0;
+      --text-muted: #5a6380;
+      --red: #ff4757;
+      --orange: #ff6b35;
+      --yellow: #ffc048;
+      --blue: #4da6ff;
+      --green: #00d4aa;
+      --terminal-bg: #0d1117;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
       line-height: 1.6;
       overflow-x: hidden;
     }
 
+    a { color: inherit; text-decoration: none; }
+
+    /* ── SKIP LINK ── */
+    .skip-link {
+      position: absolute; top: -100%; left: 16px; z-index: 10000;
+      background: var(--bg-secondary); color: #fff; padding: 12px 24px;
+      border-radius: 0 0 8px 8px; font-weight: 600; text-decoration: none;
+      transition: top .2s;
+    }
+    .skip-link:focus { top: 0; }
+
     /* ── NAVBAR ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      background: rgba(255,255,255,.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      transition: box-shadow .3s;
-    }
-    nav.scrolled { box-shadow: var(--shadow); }
-
-    .nav-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(10, 14, 26, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 0 40px;
+      height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
+    .nav-logo {
+      font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .logo-icon {
-      width: 36px; height: 36px;
-      background: var(--navy);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .logo-icon svg { width: 20px; height: 20px; }
-    .logo-name {
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: var(--navy);
-      letter-spacing: -.5px;
-    }
-    .logo-name span { color: var(--blue); }
 
     .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-      list-style: none;
+      display: flex; align-items: center; gap: 32px; list-style: none;
     }
+
     .nav-links a {
-      font-size: .875rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color .2s;
+      font-size: 0.9rem; font-weight: 500; color: var(--text-secondary);
+      transition: color 0.3s;
     }
-    .nav-links a:hover { color: var(--navy); }
+    .nav-links a:hover { color: var(--text-primary); }
 
     .nav-cta {
-      background: var(--blue);
-      color: #fff !important;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 600 !important;
-      transition: background .2s, transform .15s !important;
+      background: var(--accent); color: var(--bg-primary) !important;
+      padding: 10px 24px; border-radius: 8px; font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.3s;
+      -webkit-text-fill-color: var(--bg-primary) !important;
     }
-    .nav-cta:hover { background: #1d4ed8 !important; transform: translateY(-1px); }
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0, 212, 170, 0.3);
+    }
 
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 4px;
-      background: none;
-      border: none;
-      -webkit-appearance: none;
+    .mobile-toggle {
+      display: none; background: none; border: none; cursor: pointer;
+      flex-direction: column; gap: 5px;
     }
-    .hamburger span {
-      display: block;
-      width: 24px; height: 2px;
-      background: var(--navy);
-      border-radius: 2px;
-      transition: transform .3s, opacity .3s;
+    .mobile-toggle span {
+      width: 24px; height: 2px; background: var(--text-primary);
+      transition: 0.3s;
     }
-    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
     /* ── HERO ── */
-    #hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      background: linear-gradient(135deg, #0D2B4E 0%, #0F3460 50%, #073B4C 100%);
+    .hero {
+      min-height: 100vh; padding: 120px 40px 80px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
     }
 
-    .hero-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(37,99,235,.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(37,99,235,.08) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
-      animation: gridMove 40s linear infinite;
-    }
-
-    @keyframes gridMove {
-      from { background-position: 0 0; }
-      to { background-position: 0 600px; }
-    }
-
-    .hero-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: .4;
-    }
-    .hero-orb-1 {
-      width: 500px; height: 500px;
-      background: var(--blue);
-      top: -100px; right: -100px;
-    }
-    .hero-orb-2 {
-      width: 300px; height: 300px;
-      background: var(--emerald);
-      bottom: -50px; left: 10%;
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; width: 60%; height: 100%;
+      background:
+        radial-gradient(2px 2px at 10% 20%, rgba(0,212,170,0.15) 0%, transparent 100%),
+        radial-gradient(2px 2px at 25% 45%, rgba(0,168,200,0.1) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 15% 70%, rgba(0,212,170,0.12) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 15%, rgba(0,168,200,0.08) 0%, transparent 100%),
+        radial-gradient(2px 2px at 5% 55%, rgba(0,212,170,0.1) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 40% 80%, rgba(0,168,200,0.06) 0%, transparent 100%),
+        radial-gradient(1px 1px at 20% 35%, rgba(0,212,170,0.08) 0%, transparent 100%),
+        radial-gradient(2px 2px at 30% 60%, rgba(0,168,200,0.1) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 25%, rgba(0,212,170,0.06) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 8% 85%, rgba(0,168,200,0.08) 0%, transparent 100%),
+        radial-gradient(600px 600px at 10% 50%, rgba(0,212,170,0.03) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
     }
 
     .hero-inner {
-      position: relative;
-      z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 120px 24px 80px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
+      max-width: 1280px; width: 100%; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+      align-items: center; position: relative; z-index: 1;
     }
 
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(37,99,235,.15);
-      border: 1px solid rgba(37,99,235,.3);
-      color: #93C5FD;
-      font-size: .8rem;
-      font-weight: 600;
-      padding: 6px 14px;
-      border-radius: 100px;
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 2px;
+      color: var(--accent); text-transform: uppercase;
       margin-bottom: 24px;
-      letter-spacing: .05em;
-      text-transform: uppercase;
     }
-    .hero-badge .dot {
-      width: 6px; height: 6px;
-      background: var(--emerald-light);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
+    .hero-tag::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: .5; transform: scale(1.3); }
+    .hero-headline {
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 900; line-height: 1.08;
+      letter-spacing: -1.5px; margin-bottom: 24px;
     }
 
-    .hero-title {
-      font-size: clamp(2.2rem, 4vw, 3.6rem);
-      font-weight: 900;
-      color: #fff;
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-      margin-bottom: 20px;
-    }
-    .hero-title .accent { color: var(--blue-light); }
-    .hero-title .accent-em { color: var(--emerald-light); }
-
-    .hero-sub {
-      font-size: 1.1rem;
-      color: #94A3B8;
-      max-width: 480px;
-      margin-bottom: 40px;
-      line-height: 1.7;
+    .hero-headline .gradient-text {
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .hero-actions {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
+    .hero-subtitle {
+      font-size: 1.15rem; color: var(--text-secondary);
+      max-width: 480px; margin-bottom: 36px; line-height: 1.7;
+    }
+
+    .hero-buttons {
+      display: flex; gap: 16px; margin-bottom: 40px; flex-wrap: wrap;
     }
 
     .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--blue);
-      color: #fff;
-      padding: 14px 28px;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: .95rem;
-      text-decoration: none;
-      transition: background .2s, transform .15s, box-shadow .2s;
-      box-shadow: 0 4px 14px rgba(37,99,235,.4);
+      background: var(--accent); color: var(--bg-primary);
+      padding: 14px 32px; border-radius: 10px; font-weight: 700;
+      font-size: 0.95rem; border: none; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+      font-family: var(--font-sans);
     }
     .btn-primary:hover {
-      background: #1d4ed8;
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(37,99,235,.45);
+      box-shadow: 0 8px 30px rgba(0, 212, 170, 0.3);
     }
 
-    .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.2);
-      color: #fff;
-      padding: 14px 28px;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: .95rem;
-      text-decoration: none;
-      transition: background .2s, transform .15s;
+    .btn-outline {
+      background: transparent; color: var(--text-primary);
+      padding: 14px 32px; border-radius: 10px; font-weight: 600;
+      font-size: 0.95rem; border: 1px solid rgba(255,255,255,0.15);
+      cursor: pointer; transition: all 0.3s;
+      font-family: var(--font-sans);
     }
-    .btn-ghost:hover {
-      background: rgba(255,255,255,.14);
-      transform: translateY(-2px);
+    .btn-outline:hover {
+      border-color: var(--accent);
+      background: rgba(0, 212, 170, 0.05);
     }
 
-    /* Hero visual panel */
-    .hero-visual {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .hero-features {
+      display: flex; gap: 20px; margin-bottom: 48px; flex-wrap: wrap;
     }
 
-    .terminal-card {
-      background: rgba(10, 25, 47, 0.85);
-      border: 1px solid rgba(0, 168, 200, 0.3);
-      border-radius: 16px;
-      padding: 28px;
-      width: 100%;
-      max-width: 440px;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+    .feature-tag {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.8rem; color: var(--text-secondary);
+      background: rgba(255,255,255,0.04);
+      padding: 8px 16px; border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .feature-tag svg {
+      width: 16px; height: 16px; stroke: var(--accent);
+      fill: none; stroke-width: 2;
+    }
+
+    .partner-logos {
+      display: flex; gap: 32px; align-items: center; flex-wrap: wrap;
+    }
+    .partner-logos span {
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--text-muted); opacity: 0.4;
+      transition: opacity 0.3s;
+    }
+    .partner-logos span:hover { opacity: 0.7; }
+
+    /* ── DASHBOARD MOCKUP ── */
+    .dashboard-wrapper {
       position: relative;
-      overflow: hidden;
+      display: flex; justify-content: center;
     }
-    .terminal-card::before {
-      content: "";
-      position: absolute;
-      top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background: linear-gradient(0deg, transparent 0%, rgba(0, 168, 200, 0.05) 50%, transparent 100%);
-      animation: scanline 8s linear infinite;
-      pointer-events: none;
+
+    .dashboard-glow {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(0,212,170,0.12) 0%, rgba(0,168,200,0.06) 40%, transparent 70%);
+      border-radius: 50%; pointer-events: none; z-index: 0;
     }
-    @keyframes scanline {
-      0% { transform: translateY(-100%); }
-      100% { transform: translateY(100%); }
+
+    .dashboard {
+      position: relative; z-index: 1;
+      background: var(--bg-secondary);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 24px;
+      width: 100%; max-width: 480px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 80px rgba(0,212,170,0.06);
     }
-    .term-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+
+    .dash-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px; padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .dash-logo {
+      font-weight: 800; font-size: 1rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .dash-status {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.7rem; color: var(--accent);
+    }
+    .dash-status::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .score-section {
+      display: flex; align-items: center; gap: 24px;
       margin-bottom: 20px;
     }
-    .term-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
+
+    .score-gauge {
+      position: relative; width: 100px; height: 100px;
     }
-    .term-dot:nth-child(1) { background: #FF5F57; }
-    .term-dot:nth-child(2) { background: #FFBD2E; }
-    .term-dot:nth-child(3) { background: #28CA41; }
-    .term-title {
-      margin-left: auto;
-      font-size: .7rem;
-      color: #475569;
-      font-family: 'JetBrains Mono', monospace;
+    .score-gauge svg { width: 100px; height: 100px; transform: rotate(-90deg); }
+    .score-gauge .track {
+      fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 8;
+    }
+    .score-gauge .fill {
+      fill: none; stroke: url(#scoreGrad); stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 251; stroke-dashoffset: 65;
+      transition: stroke-dashoffset 1s ease;
+    }
+    .score-number {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.8rem; font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .score-label {
+      font-size: 0.65rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .score-details { flex: 1; }
+    .score-details .score-title {
+      font-size: 0.75rem; color: var(--text-secondary);
+      margin-bottom: 8px; font-weight: 600;
     }
 
-    .term-line {
-      font-family: 'Courier New', monospace;
-      font-size: .78rem;
+    .vuln-bars { display: flex; flex-direction: column; gap: 6px; }
+    .vuln-row {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.7rem;
+    }
+    .vuln-label {
+      width: 56px; color: var(--text-muted); font-weight: 500;
+    }
+    .vuln-bar-bg {
+      flex: 1; height: 6px; background: rgba(255,255,255,0.04);
+      border-radius: 3px; overflow: hidden;
+    }
+    .vuln-bar-fill { height: 100%; border-radius: 3px; }
+    .vuln-bar-fill.critical { background: var(--red); width: 8%; }
+    .vuln-bar-fill.high { background: var(--orange); width: 30%; }
+    .vuln-bar-fill.medium { background: var(--yellow); width: 52%; }
+    .vuln-bar-fill.low { background: var(--blue); width: 85%; }
+    .vuln-count { color: var(--text-muted); width: 20px; text-align: right; }
+
+    .dash-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+      margin-top: 16px;
+    }
+
+    .dash-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px; padding: 14px;
+    }
+    .dash-card-title {
+      font-size: 0.65rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.5px;
       margin-bottom: 8px;
-      display: flex;
-      gap: 8px;
-    }
-    .term-prompt { color: var(--emerald-light); }
-    .term-cmd { color: #E2E8F0; }
-    .term-output { color: #94A3B8; padding-left: 16px; }
-    .term-success { color: var(--emerald-light); padding-left: 16px; }
-    .term-warn { color: #FBBF24; padding-left: 16px; }
-    .term-cursor {
-      display: inline-block;
-      width: 8px; height: 14px;
-      background: var(--emerald-light);
-      vertical-align: middle;
-      animation: blink 1s step-start infinite;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
-
-    .ai-badge-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(37,99,235,.15);
-    }
-    .ai-tag {
-      font-size: .68rem;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 6px;
-      letter-spacing: .04em;
-    }
-    .ai-tag-blue { background: rgba(37,99,235,.2); color: #93C5FD; }
-    .ai-tag-green { background: rgba(16,185,129,.2); color: var(--emerald-light); }
-    .ai-tag-yellow { background: rgba(251,191,36,.15); color: #FCD34D; }
-
-    /* ── STATS BAR ── */
-    #stats {
-      background: var(--navy);
-      padding: 48px 24px;
-    }
-    .stats-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 40px;
-      text-align: center;
-    }
-    .stat-num {
-      font-size: 2.4rem;
-      font-weight: 900;
-      color: #fff;
-      letter-spacing: -1px;
-      line-height: 1;
-    }
-    .stat-num .unit { color: var(--blue-light); }
-    .stat-label {
-      font-size: .8rem;
-      color: #64748B;
-      margin-top: 6px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-weight: 500;
-    }
-    .stat-divider {
-      width: 1px;
-      background: rgba(255,255,255,.06);
     }
 
-    /* ── SHARED SECTION STYLES ── */
-    section { padding: 96px 24px; }
-    .section-inner { max-width: 1200px; margin: 0 auto; }
-    .section-label {
-      display: inline-block;
-      font-size: .75rem;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--blue);
+    .radar-chart {
+      width: 100%; aspect-ratio: 1; position: relative;
+    }
+    .radar-chart svg { width: 100%; height: 100%; }
+    .radar-poly {
+      fill: rgba(0,212,170,0.12); stroke: var(--accent);
+      stroke-width: 1.5;
+    }
+    .radar-grid {
+      fill: none; stroke: rgba(255,255,255,0.06);
+      stroke-width: 0.5;
+    }
+
+    .mini-bars {
+      display: flex; align-items: flex-end; gap: 4px; height: 40px;
+    }
+    .mini-bar {
+      flex: 1; border-radius: 2px 2px 0 0;
+      background: linear-gradient(to top, var(--accent), var(--accent-secondary));
+      opacity: 0.6;
+    }
+
+    .status-list { display: flex; flex-direction: column; gap: 6px; }
+    .status-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.7rem; color: var(--text-secondary);
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+    }
+    .status-dot.green { background: var(--green); box-shadow: 0 0 4px var(--green); }
+    .status-dot.yellow { background: var(--yellow); box-shadow: 0 0 4px var(--yellow); }
+
+    .uptime-value {
+      font-size: 1.3rem; font-weight: 800; color: var(--accent);
+      margin-top: 4px;
+    }
+
+    /* ── TERMINAL SECTION ── */
+    .terminal-section {
+      padding: 80px 40px;
+      background: var(--bg-primary);
+    }
+
+    .terminal-section .section-header {
+      text-align: center; margin-bottom: 48px;
+    }
+
+    .terminal-container {
+      max-width: 800px; margin: 0 auto;
+    }
+
+    .terminal-input-row {
+      display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;
+    }
+
+    .terminal-input-row input {
+      flex: 1; min-width: 200px;
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 14px 20px;
+      color: var(--text-primary); font-size: 0.95rem;
+      font-family: var(--font-sans);
+      transition: border-color 0.3s;
+    }
+    .terminal-input-row input:focus {
+      outline: none; border-color: var(--accent);
+    }
+    .terminal-input-row input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .terminal {
+      background: var(--terminal-bg);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    .terminal-chrome {
+      display: flex; align-items: center; gap: 8px;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .terminal-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .terminal-dot.red { background: #ff5f57; }
+    .terminal-dot.yellow { background: #febc2e; }
+    .terminal-dot.green { background: #28c840; }
+    .terminal-title {
+      margin-left: 12px; font-size: 0.75rem;
+      color: var(--text-muted); font-family: var(--font-mono);
+    }
+
+    #terminal-body {
+      padding: 20px;
+      min-height: 200px; max-height: 400px;
+      overflow-y: auto; font-family: var(--font-mono);
+      font-size: 0.82rem; line-height: 1.7;
+    }
+
+    .term-line { margin-bottom: 2px; }
+    .term-prompt { color: var(--accent); margin-right: 8px; }
+    .term-cmd { color: var(--text-primary); }
+    .term-output { color: var(--text-secondary); }
+    .term-success { color: var(--green); }
+    .term-warn { color: var(--orange); }
+
+    #terminal-body::-webkit-scrollbar { width: 6px; }
+    #terminal-body::-webkit-scrollbar-track { background: transparent; }
+    #terminal-body::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.1); border-radius: 3px;
+    }
+
+    /* ── SECTIONS COMMON ── */
+    .section-header h2 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 800; letter-spacing: -0.5px;
       margin-bottom: 12px;
     }
-    .section-title {
-      font-size: clamp(1.8rem, 3vw, 2.8rem);
-      font-weight: 800;
-      color: var(--navy);
-      letter-spacing: -1px;
-      line-height: 1.15;
-      margin-bottom: 16px;
+    .section-header p {
+      color: var(--text-secondary); font-size: 1.05rem;
+      max-width: 560px; margin: 0 auto;
     }
-    .section-sub {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      max-width: 600px;
-      line-height: 1.7;
+    .section-badge {
+      display: inline-block; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 12px;
     }
-    .section-head { margin-bottom: 64px; }
-    .section-head.center { text-align: center; }
-    .section-head.center .section-sub { margin: 0 auto; }
 
-    /* ── SERVICES ── */
-    #services { background: var(--bg-alt); }
-    .services-grid {
+    /* ── FEATURES ── */
+    .features-section {
+      padding: 100px 40px;
+      background: var(--bg-secondary);
+    }
+
+    .features-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px; max-width: 1100px; margin: 48px auto 0;
     }
 
-    .service-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px;
-      transition: all .35s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px; padding: 32px 28px;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
     }
-    .service-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--blue), transparent);
-      transform: translateX(-100%);
-      transition: transform .6s;
-    }
-    .service-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(13, 27, 42, 0.1);
-      border-color: var(--blue);
-    }
-    .service-card:hover::after {
-      transform: translateX(100%);
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,212,170,0.2);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
     }
 
-    .service-icon {
-      width: 52px; height: 52px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(0,212,170,0.1);
+      display: flex; align-items: center; justify-content: center;
       margin-bottom: 20px;
     }
-    .icon-blue { background: rgba(37,99,235,.1); }
-    .icon-navy { background: rgba(10,22,40,.08); }
-    .icon-emerald { background: rgba(16,185,129,.1); }
-    .icon-purple { background: rgba(139,92,246,.1); }
-    .icon-amber { background: rgba(245,158,11,.1); }
-    .icon-red { background: rgba(239,68,68,.1); }
-
-    .service-icon svg { width: 26px; height: 26px; }
-
-    .service-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 10px;
+    .feature-icon svg {
+      width: 24px; height: 24px; stroke: var(--accent);
+      fill: none; stroke-width: 1.8;
     }
-    .service-desc {
-      font-size: .9rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-      margin-bottom: 20px;
+
+    .feature-card h3 {
+      font-size: 1.1rem; font-weight: 700; margin-bottom: 10px;
     }
-    .service-tags {
-      display: flex;
+    .feature-card p {
+      font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      padding: 100px 40px;
+      background: var(--bg-primary);
+    }
+
+    .steps-row {
+      display: flex; gap: 32px; max-width: 900px;
+      margin: 48px auto 0; justify-content: center;
       flex-wrap: wrap;
-      gap: 6px;
-    }
-    .tag {
-      font-size: .7rem;
-      font-weight: 600;
-      color: var(--blue);
-      background: rgba(37,99,235,.08);
-      padding: 3px 10px;
-      border-radius: 100px;
     }
 
-    /* ── AI PLATFORM ── */
-    #platform {
-      background: var(--navy);
-      overflow: hidden;
-      position: relative;
+    .step-card {
+      flex: 1; min-width: 220px; max-width: 280px;
+      text-align: center; position: relative;
     }
-    #platform .hero-grid { opacity: .5; }
-    .platform-inner {
-      position: relative;
-      z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-    .platform-label { color: var(--emerald-light) !important; }
-    .platform-title { color: #fff !important; }
-    .platform-sub { color: #94A3B8 !important; max-width: 100% !important; }
 
-    .platform-features {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin-top: 40px;
-    }
-    .pf-item {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-    }
-    .pf-icon {
-      flex-shrink: 0;
-      width: 40px; height: 40px;
-      background: rgba(37,99,235,.15);
-      border: 1px solid rgba(37,99,235,.25);
-      border-radius: 10px;
+    .step-number {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
       display: flex; align-items: center; justify-content: center;
-    }
-    .pf-icon svg { width: 20px; height: 20px; }
-    .pf-text h4 {
-      font-size: .95rem;
-      font-weight: 700;
-      color: #E2E8F0;
-      margin-bottom: 4px;
-    }
-    .pf-text p {
-      font-size: .85rem;
-      color: #64748B;
-      line-height: 1.6;
-    }
-
-    .platform-visual {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .pv-card {
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: var(--radius);
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      backdrop-filter: blur(8px);
-      transition: border-color .25s, background .25s;
-    }
-    .pv-card:hover {
-      border-color: rgba(37,99,235,.3);
-      background: rgba(37,99,235,.06);
-    }
-    .pv-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .dot-green { background: var(--emerald-light); box-shadow: 0 0 8px var(--emerald); }
-    .dot-blue { background: var(--blue-light); box-shadow: 0 0 8px var(--blue); }
-    .dot-yellow { background: #FBBF24; box-shadow: 0 0 8px #F59E0B; }
-    .pv-info h5 { font-size: .9rem; font-weight: 600; color: #E2E8F0; }
-    .pv-info p { font-size: .78rem; color: #64748B; }
-    .pv-stat {
-      margin-left: auto;
-      font-size: .85rem;
-      font-weight: 700;
-      color: var(--emerald-light);
-    }
-
-    /* ── WHY ── */
-    #why { background: var(--bg); }
-    .why-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-    }
-    .why-card {
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px 24px;
-      text-align: center;
-      transition: transform .25s, box-shadow .25s;
-    }
-    .why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .why-icon {
-      width: 64px; height: 64px;
-      border-radius: 16px;
-      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; font-weight: 800; color: var(--bg-primary);
       margin: 0 auto 20px;
-      background: var(--navy);
-    }
-    .why-icon svg { width: 30px; height: 30px; }
-    .why-card h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 10px;
-    }
-    .why-card p { font-size: .875rem; color: var(--text-muted); line-height: 1.65; }
-
-    /* ── SEGMENTS ── */
-    #segments { background: var(--bg-alt); }
-    .segments-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .seg-card {
-      border-radius: var(--radius-lg);
-      padding: 40px 32px;
-      position: relative;
-      overflow: hidden;
-      transition: transform .25s, box-shadow .25s;
-    }
-    .seg-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-xl); }
-    .seg-card-enterprise {
-      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
-      color: #fff;
-    }
-    .seg-card-smb {
-      background: var(--bg);
-      border: 2px solid var(--blue);
-      color: var(--navy);
-    }
-    .seg-card-gov {
-      background: linear-gradient(135deg, #064E3B 0%, #065F46 100%);
-      color: #fff;
-    }
-    .seg-icon {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      display: block;
-    }
-    .seg-card h3 {
-      font-size: 1.3rem;
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-    .seg-card p { font-size: .9rem; line-height: 1.7; opacity: .85; margin-bottom: 24px; }
-    .seg-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-    .seg-features li {
-      font-size: .85rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      opacity: .9;
-    }
-    .seg-features li::before {
-      content: '';
-      display: block;
-      width: 16px; height: 16px;
-      flex-shrink: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2310B981' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
-      background-size: contain;
-    }
-    .seg-card-smb .seg-features li::before {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%232563EB' stroke-width='2.5'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
     }
 
-    /* ── PROCESS ── */
-    #process { background: var(--bg); }
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-      position: relative;
+    .step-card h3 {
+      font-size: 1.05rem; font-weight: 700; margin-bottom: 8px;
     }
-    .process-grid::before {
-      content: '';
-      position: absolute;
-      top: 36px; left: 15%; right: 15%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--blue), var(--emerald));
+    .step-card p {
+      font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;
     }
-    .process-step {
-      text-align: center;
-      padding: 0 16px;
-      position: relative;
-    }
-    .step-num {
-      width: 72px; height: 72px;
-      border-radius: 50%;
-      background: var(--bg-alt);
-      border: 3px solid var(--blue);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 24px;
-      font-size: 1.3rem;
-      font-weight: 900;
-      color: var(--blue);
-      position: relative;
-      z-index: 1;
-      transition: background .25s, border-color .25s, color .25s;
-    }
-    .process-step:hover .step-num {
-      background: var(--blue);
-      color: #fff;
-    }
-    .process-step h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 8px;
-    }
-    .process-step p { font-size: .85rem; color: var(--text-muted); line-height: 1.65; }
 
-    /* ── TESTIMONIALS ── */
-    #testimonials { background: var(--bg-alt); }
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+    .step-connector {
+      display: flex; align-items: center;
+      padding-top: 28px;
     }
-    .testimonial-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px;
-      transition: transform .25s, box-shadow .25s;
-    }
-    .testimonial-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-    .quote-icon {
-      font-size: 3rem;
-      line-height: 1;
-      color: var(--blue);
-      opacity: .25;
-      font-family: Georgia, serif;
-      margin-bottom: -8px;
-    }
-    .testimonial-text {
-      font-size: .9rem;
-      color: var(--text-muted);
-      line-height: 1.75;
-      margin-bottom: 24px;
-      font-style: italic;
-    }
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .author-avatar {
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      background: var(--navy);
-      display: flex; align-items: center; justify-content: center;
-      font-size: .9rem;
-      font-weight: 700;
-      color: #fff;
-      flex-shrink: 0;
-    }
-    .author-name { font-size: .9rem; font-weight: 700; color: var(--navy); }
-    .author-role { font-size: .78rem; color: var(--text-muted); }
-    .stars {
-      display: flex;
-      gap: 2px;
-      margin-bottom: 16px;
-    }
-    .star { color: #FBBF24; font-size: .9rem; }
-
-    /* ── CONTACT ── */
-    #contact {
-      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    #contact .hero-grid { opacity: .3; }
-    .contact-inner {
-      position: relative;
-      z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-    }
-    .contact-info .section-label { color: var(--emerald-light) !important; }
-    .contact-title { color: #fff !important; }
-    .contact-sub { color: #94A3B8 !important; max-width: 100% !important; }
-
-    .contact-details {
-      margin-top: 40px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .contact-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-    }
-    .ci-icon {
-      width: 40px; height: 40px;
-      background: rgba(37,99,235,.15);
-      border: 1px solid rgba(37,99,235,.2);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .ci-icon svg { width: 18px; height: 18px; }
-    .ci-label { font-size: .75rem; color: #475569; font-weight: 500; margin-bottom: 2px; }
-    .ci-value { font-size: .95rem; color: #E2E8F0; font-weight: 500; }
-
-    /* Contact Form */
-    .contact-form {
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: var(--radius-lg);
-      padding: 40px;
-      backdrop-filter: blur(10px);
-    }
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .form-group { margin-bottom: 20px; }
-    .form-group label {
-      display: block;
-      font-size: .8rem;
-      font-weight: 600;
-      color: #94A3B8;
-      margin-bottom: 8px;
-      letter-spacing: .03em;
-    }
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: .9rem;
-      color: #E2E8F0;
-      font-family: inherit;
-      transition: border-color .2s, background .2s;
-      outline: 2px solid transparent;
-      outline-offset: 2px;
-    }
-    .form-group input:focus-visible,
-    .form-group select:focus-visible,
-    .form-group textarea:focus-visible {
-      border-color: var(--blue);
-      background: rgba(37,99,235,.08);
-      outline: 2px solid var(--blue);
-    }
-    .form-group input::placeholder,
-    .form-group textarea::placeholder { color: #475569; }
-    .form-group select option { background: var(--navy); color: #E2E8F0; }
-    .form-group textarea { resize: vertical; min-height: 100px; }
-
-    .form-submit {
-      width: 100%;
-      background: var(--blue);
-      color: #fff;
-      border: none;
-      padding: 14px;
-      border-radius: 10px;
-      font-size: .95rem;
-      font-weight: 700;
-      font-family: inherit;
-      cursor: pointer;
-      transition: background .2s, transform .15s, box-shadow .2s;
-      box-shadow: 0 4px 14px rgba(37,99,235,.4);
-    }
-    .form-submit:hover {
-      background: #1d4ed8;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(37,99,235,.45);
-    }
-    .form-success {
-      display: none;
-      text-align: center;
-      padding: 24px;
-      color: var(--emerald-light);
-      font-weight: 600;
+    .step-connector svg {
+      width: 24px; height: 24px; stroke: var(--text-muted);
+      fill: none; stroke-width: 2;
     }
 
     /* ── FOOTER ── */
-    footer {
-      background: #050D1A;
-      padding: 48px 24px 32px;
+    .footer {
+      padding: 40px;
+      background: var(--bg-secondary);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
     }
-    .footer-inner {
-      max-width: 1200px;
-      margin: 0 auto;
+    .footer p {
+      font-size: 0.85rem; color: var(--text-muted);
     }
-    .footer-top {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 48px;
-      margin-bottom: 48px;
+    .footer a {
+      color: var(--accent); transition: opacity 0.3s;
     }
-    .footer-brand p {
-      font-size: .875rem;
-      color: #475569;
-      line-height: 1.7;
-      margin-top: 12px;
-      max-width: 280px;
-    }
-    .footer-col h4 {
-      font-size: .8rem;
-      font-weight: 700;
-      color: #94A3B8;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 16px;
-    }
-    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .footer-col ul a {
-      font-size: .875rem;
-      color: #475569;
-      text-decoration: none;
-      transition: color .2s;
-    }
-    .footer-col ul a:hover { color: #94A3B8; }
-    .footer-col ul span { font-size: .875rem; color: #64748B; }
-    .footer-legal-note { font-size: .8rem; color: #64748B; margin-bottom: 12px; line-height: 1.5; }
-    .footer-legal-note a { color: #60A5FA; text-decoration: none; }
-    .footer-legal-note a:hover { text-decoration: underline; }
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,.05);
-      padding-top: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .footer-copy { font-size: .8rem; color: #334155; }
-    .footer-certs {
-      display: flex;
-      gap: 12px;
-    }
-    .cert-badge {
-      font-size: .7rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      border: 1px solid rgba(255,255,255,.08);
-      color: #475569;
-      letter-spacing: .05em;
-    }
-
-    /* ── SCROLL REVEAL ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .65s ease, transform .65s ease;
-    }
-    .reveal.visible { opacity: 1; transform: none; }
-
-    /* ── MOBILE NAV ── */
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 68px; left: 0; right: 0;
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-      padding: 20px 24px;
-      box-shadow: var(--shadow-lg);
-      z-index: 999;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-size: .95rem;
-      font-weight: 500;
-      color: var(--text);
-      text-decoration: none;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .mobile-menu a:last-child { border-bottom: none; }
+    .footer a:hover { opacity: 0.8; }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) {
-      .services-grid { grid-template-columns: repeat(2, 1fr); }
-      .why-grid { grid-template-columns: repeat(2, 1fr); }
-      .stats-inner { grid-template-columns: repeat(2, 1fr); }
-      .stat-divider { display: none; }
-    }
-
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-subtitle { margin-left: auto; margin-right: auto; }
+      .hero-buttons { justify-content: center; }
+      .hero-features { justify-content: center; }
+      .partner-logos { justify-content: center; }
+      .dashboard-wrapper { margin-top: 40px; }
+      .navbar { padding: 0 20px; }
       .nav-links { display: none; }
-      .hamburger { display: flex; }
-      section { padding: 64px 16px; }
-
-      .hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; padding: 100px 16px 60px; }
-      .hero-badge { margin: 0 auto 24px; }
-      .hero-sub { margin: 0 auto 40px; }
-      .hero-actions { justify-content: center; }
-      .hero-visual { display: none; }
-
-      .services-grid { grid-template-columns: 1fr; }
-      .platform-inner { grid-template-columns: 1fr; gap: 40px; }
-      .why-grid { grid-template-columns: 1fr 1fr; }
-      .segments-grid { grid-template-columns: 1fr; }
-      .process-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-      .process-grid::before { display: none; }
-      .testimonials-grid { grid-template-columns: 1fr; }
-      .contact-inner { grid-template-columns: 1fr; gap: 40px; }
-      .footer-top { grid-template-columns: 1fr 1fr; }
-      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
-      .form-row { grid-template-columns: 1fr; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 72px; left: 0; right: 0;
+        background: rgba(10,14,26,0.97);
+        padding: 24px; gap: 20px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+      .mobile-toggle { display: flex; }
+      .hero { padding: 100px 20px 60px; }
+      .features-section, .how-section, .terminal-section { padding: 60px 20px; }
+      .step-connector { display: none; }
     }
 
     @media (max-width: 480px) {
-      .why-grid { grid-template-columns: 1fr; }
-      .process-grid { grid-template-columns: 1fr; }
-      .footer-top { grid-template-columns: 1fr; }
+      .hero-headline { font-size: 2.2rem; }
+      .dashboard { padding: 16px; }
+    }
+
+    /* ── FORM (contact) ── */
+    #form-success {
+      display: none; text-align: center; padding: 20px;
+      color: var(--accent); font-weight: 600;
     }
   </style>
-<link rel="stylesheet" href="premium.css">
-
-<!-- Structured Data -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "DevSpire",
-  "url": "https://devspire.ie",
-  "logo": "https://devspire.ie/logo.jpeg",
-  "description": "AI-powered cybersecurity firm based in Dublin, Ireland. Penetration testing, red team operations, threat intelligence, and incident response.",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Dublin",
-    "addressCountry": "IE"
-  },
-  "sameAs": []
-}
-</script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
-<!-- Skip to content -->
-<a href="#services" class="skip-link">Skip to main content</a>
-
-<!-- NAVBAR -->
-<nav id="navbar">
-  <div class="nav-inner">
-    <a href="#hero" class="logo">
-      <img src="logo.jpeg" alt="DevSpire" class="logo-img" />
-    </a>
-    <ul class="nav-links">
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <a href="#" class="nav-logo">DevSpire</a>
+    <ul class="nav-links" id="nav-links">
       <li><a href="#services">Services</a></li>
-      <li><a href="#platform">AI Platform</a></li>
-      <li><a href="#why">Why Us</a></li>
-      <li><a href="#segments">Clients</a></li>
-      <li><a href="#contact" class="nav-cta">Get Assessment</a></li>
+      <li><a href="#scanner">AI Platform</a></li>
+      <li><a href="#how-it-works">Why Us</a></li>
+      <li><a href="#services">Clients</a></li>
+      <li><a href="#scanner">Resources</a></li>
+      <li><a href="#scanner" class="nav-cta">Start Free Scan</a></li>
     </ul>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu" type="button">
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu" onclick="document.getElementById('nav-links').classList.toggle('open')">
       <span></span><span></span><span></span>
     </button>
-  </div>
-</nav>
+  </nav>
 
-<!-- MOBILE MENU -->
-<nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
-  <a href="#services" onclick="toggleMenu()">Services</a>
-  <a href="#platform" onclick="toggleMenu()">AI Platform</a>
-  <a href="#why" onclick="toggleMenu()">Why Us</a>
-  <a href="#segments" onclick="toggleMenu()">Clients</a>
-  <a href="#contact" onclick="toggleMenu()">Get Assessment</a>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-orb hero-orb-1"></div>
-  <div class="hero-orb hero-orb-2"></div>
-  <div class="hero-inner">
-    <div class="hero-content">
-      <div class="hero-badge">
-        <span class="dot"></span>
-        AI-Powered · Dublin, Ireland
-      </div>
-      <h1 class="hero-title">
-        Automated Security<br>
-        for the <span class="accent">Modern</span><br>
-        <span class="accent-em">Threat Landscape</span>
-      </h1>
-      <p class="hero-sub">
-        DevSpire combines AI automation with elite human expertise to deliver end-to-end cybersecurity — from penetration testing to real-time threat intelligence — across every industry segment.
-      </p>
-      <div class="hero-actions">
-        <a href="#contact" class="btn-primary">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-          Free Security Assessment
-        </a>
-        <a href="#services" class="btn-ghost">
-          Explore Services →
-        </a>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="terminal-card">
-        <div class="term-bar">
-          <div class="term-dot"></div>
-          <div class="term-dot"></div>
-          <div class="term-dot"></div>
-          <span class="term-title">devspire-ai — pentest-agent v3.1</span>
+  <!-- ═══ HERO ═══ -->
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-inner">
+      <!-- LEFT SIDE -->
+      <div class="hero-content">
+        <div class="hero-tag">AI-Powered &middot; Dublin, Ireland</div>
+        <h1 class="hero-headline">
+          AI-Powered<br>
+          <span class="gradient-text">Offensive</span><br>
+          Security
+        </h1>
+        <p class="hero-subtitle">
+          Autonomous cybersecurity powered by AI agents. We find vulnerabilities before attackers do.
+        </p>
+        <div class="hero-buttons">
+          <a href="#scanner" class="btn-primary">Run AI Security Scan</a>
+          <a href="#services" class="btn-outline">Explore Platform</a>
         </div>
-        <div id="terminal-body" class="term-body">
-          <div class="term-line"><span class="term-prompt">$</span><span class="term-cmd">devspire ready. Waiting for target...</span></div>
-        </div>
-        <div class="term-input-bar">
-          <label for="target-url" class="sr-only">Target URL for security scan</label>
-          <input type="text" id="target-url" name="target_url" class="term-input" placeholder="Enter target (e.g. google.com)" autocomplete="off">
-          <button onclick="startAssessment()" class="btn-primary term-scan-btn" type="button">Scan Now</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STATS BAR -->
-<div id="stats">
-  <div class="stats-inner">
-    <div class="stat reveal">
-      <div class="stat-num"><span class="counter" data-target="500">0</span><span class="unit">+</span></div>
-      <div class="stat-label">Security Assessments</div>
-    </div>
-    <div class="stat reveal" style="transition-delay:.1s">
-      <div class="stat-num"><span class="counter" data-target="98">0</span><span class="unit">%</span></div>
-      <div class="stat-label">Client Retention Rate</div>
-    </div>
-    <div class="stat reveal" style="transition-delay:.2s">
-      <div class="stat-num"><span class="counter" data-target="12">0</span><span class="unit">+</span></div>
-      <div class="stat-label">Years of Expertise</div>
-    </div>
-    <div class="stat reveal" style="transition-delay:.3s">
-      <div class="stat-num"><span class="counter" data-target="50">0</span><span class="unit">+</span></div>
-      <div class="stat-label">Certified Specialists</div>
-    </div>
-  </div>
-</div>
-
-<!-- SERVICES -->
-<section id="services">
-  <div class="section-inner">
-    <div class="section-head center">
-      <span class="section-label">What We Do</span>
-      <h2 class="section-title">Comprehensive Security,<br>Fully Automated by AI</h2>
-      <p class="section-sub">From initial reconnaissance to final remediation, our AI platform orchestrates every stage of your security assessment — with human experts validating every critical finding.</p>
-    </div>
-    <div class="services-grid">
-      <!-- Penetration Testing -->
-      <div class="service-card reveal">
-        <div class="service-icon icon-blue">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 8v4l3 3"/>
-            <path d="M8.5 2.5l-1 1.5M15.5 2.5l1 1.5"/>
-          </svg>
-        </div>
-        <h3 class="service-title">Penetration Testing</h3>
-        <p class="service-desc">Automated and manual pentesting across web, mobile, network, cloud, and IoT environments. Our AI agent identifies attack vectors 10× faster than manual testing alone.</p>
-        <div class="service-tags">
-          <span class="tag">Web App</span>
-          <span class="tag">Mobile</span>
-          <span class="tag">Network</span>
-          <span class="tag">Cloud</span>
-          <span class="tag">IoT</span>
-        </div>
-      </div>
-      <!-- Red Team -->
-      <div class="service-card reveal" style="transition-delay:.1s">
-        <div class="service-icon icon-red">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-        </div>
-        <h3 class="service-title">Red Team Operations</h3>
-        <p class="service-desc">Full-scope adversary simulation including physical intrusion, social engineering, and advanced persistent threat emulation to test your organisation's real-world resilience.</p>
-        <div class="service-tags">
-          <span class="tag">APT Simulation</span>
-          <span class="tag">Physical</span>
-          <span class="tag">Social Eng.</span>
-        </div>
-      </div>
-      <!-- AI Security -->
-      <div class="service-card reveal" style="transition-delay:.2s">
-        <div class="service-icon icon-emerald">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.14"/>
-            <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.14"/>
-          </svg>
-        </div>
-        <h3 class="service-title">AI-Powered Security</h3>
-        <p class="service-desc">Machine learning models trained on millions of attack patterns detect threats before they materialise. Includes AI red teaming, behavioural analytics, and anomaly detection.</p>
-        <div class="service-tags">
-          <span class="tag">ML Detection</span>
-          <span class="tag">Behavioural AI</span>
-          <span class="tag">AI Red Team</span>
-        </div>
-      </div>
-      <!-- Cloud & AppSec -->
-      <div class="service-card reveal" style="transition-delay:.3s">
-        <div class="service-icon icon-purple">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
-          </svg>
-        </div>
-        <h3 class="service-title">Cloud & Application Security</h3>
-        <p class="service-desc">Comprehensive security assessments for AWS, Azure, and GCP environments. SAST/DAST integration, DevSecOps pipelines, and secure code review by certified engineers.</p>
-        <div class="service-tags">
-          <span class="tag">AWS</span>
-          <span class="tag">Azure</span>
-          <span class="tag">GCP</span>
-          <span class="tag">DevSecOps</span>
-        </div>
-      </div>
-      <!-- Incident Response -->
-      <div class="service-card reveal" style="transition-delay:.4s">
-        <div class="service-icon icon-amber">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-            <line x1="12" y1="9" x2="12" y2="13"/>
-            <line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
-        </div>
-        <h3 class="service-title">Incident Response</h3>
-        <p class="service-desc">24/7 rapid response to active breaches. Our team provides digital forensics, root cause analysis, containment strategies, and full post-breach recovery planning.</p>
-        <div class="service-tags">
-          <span class="tag">24/7 Response</span>
-          <span class="tag">Forensics</span>
-          <span class="tag">Recovery</span>
-        </div>
-      </div>
-      <!-- Threat Intelligence -->
-      <div class="service-card reveal" style="transition-delay:.5s">
-        <div class="service-icon icon-navy">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#0A1628" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"/>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            <line x1="11" y1="8" x2="11" y2="14"/>
-            <line x1="8" y1="11" x2="14" y2="11"/>
-          </svg>
-        </div>
-        <h3 class="service-title">Threat Intelligence</h3>
-        <p class="service-desc">Continuous dark web monitoring, threat actor profiling, and curated intelligence feeds tailored to your industry. Stay ahead of emerging threats before they target you.</p>
-        <div class="service-tags">
-          <span class="tag">Dark Web</span>
-          <span class="tag">Threat Feeds</span>
-          <span class="tag">Actor Profiling</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- AI PLATFORM -->
-<section id="platform">
-  <div class="hero-grid"></div>
-  <div class="platform-inner">
-    <div class="platform-left">
-      <span class="section-label platform-label">DevSpire AI Engine</span>
-      <h2 class="section-title platform-title">The First Fully Automated Pentesting Platform</h2>
-      <p class="section-sub platform-sub">Our proprietary AI engine autonomously performs the full security assessment lifecycle — from reconnaissance and exploitation to reporting — with human experts validating every critical result.</p>
-      <div class="platform-features">
-        <div class="pf-item reveal">
-          <div class="pf-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-            </svg>
+        <div class="hero-features">
+          <div class="feature-tag">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            AI Agents 24/7
           </div>
-          <div class="pf-text">
-            <h4>Continuous Assessment</h4>
-            <p>AI agents run 24/7 across your attack surface, detecting new vulnerabilities as your infrastructure evolves.</p>
+          <div class="feature-tag">
+            <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Real-Time Results
+          </div>
+          <div class="feature-tag">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Enterprise Grade
           </div>
         </div>
-        <div class="pf-item reveal" style="transition-delay:.1s">
-          <div class="pf-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-              <line x1="8" y1="21" x2="16" y2="21"/>
-              <line x1="12" y1="17" x2="12" y2="21"/>
-            </svg>
-          </div>
-          <div class="pf-text">
-            <h4>Plain-Language Reporting</h4>
-            <p>AI-generated reports tailored for both technical teams and C-level executives, with actionable remediation steps.</p>
-          </div>
+        <div class="partner-logos">
+          <span>Deloitte</span>
+          <span>PwC</span>
+          <span>Accenture</span>
+          <span>AON</span>
+          <span>KPN</span>
+          <span>Netcompany</span>
         </div>
-        <div class="pf-item reveal" style="transition-delay:.2s">
-          <div class="pf-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2L3 7l9 5 9-5-9-5z"/>
-              <path d="M3 12l9 5 9-5"/>
-              <path d="M3 17l9 5 9-5"/>
-            </svg>
+      </div>
+
+      <!-- RIGHT SIDE — DASHBOARD MOCKUP -->
+      <div class="dashboard-wrapper">
+        <div class="dashboard-glow"></div>
+        <div class="dashboard">
+          <div class="dash-header">
+            <span class="dash-logo">DevSpire</span>
+            <span class="dash-status">Live Scan</span>
           </div>
-          <div class="pf-text">
-            <h4>Zero False Positive Guarantee</h4>
-            <p>Every AI finding is validated by a senior security engineer before delivery — so your team focuses on what matters.</p>
+
+          <div class="score-section">
+            <div class="score-gauge">
+              <svg viewBox="0 0 100 100">
+                <defs>
+                  <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#00d4aa"/>
+                    <stop offset="100%" stop-color="#00a8c8"/>
+                  </linearGradient>
+                </defs>
+                <circle class="track" cx="50" cy="50" r="40"/>
+                <circle class="fill" cx="50" cy="50" r="40"/>
+              </svg>
+              <div class="score-number">74</div>
+            </div>
+            <div class="score-details">
+              <div class="score-title">Vulnerability Summary</div>
+              <div class="vuln-bars">
+                <div class="vuln-row">
+                  <span class="vuln-label">Critical</span>
+                  <div class="vuln-bar-bg"><div class="vuln-bar-fill critical"></div></div>
+                  <span class="vuln-count" style="color:var(--red)">2</span>
+                </div>
+                <div class="vuln-row">
+                  <span class="vuln-label">High</span>
+                  <div class="vuln-bar-bg"><div class="vuln-bar-fill high"></div></div>
+                  <span class="vuln-count" style="color:var(--orange)">8</span>
+                </div>
+                <div class="vuln-row">
+                  <span class="vuln-label">Medium</span>
+                  <div class="vuln-bar-bg"><div class="vuln-bar-fill medium"></div></div>
+                  <span class="vuln-count" style="color:var(--yellow)">14</span>
+                </div>
+                <div class="vuln-row">
+                  <span class="vuln-label">Low</span>
+                  <div class="vuln-bar-bg"><div class="vuln-bar-fill low"></div></div>
+                  <span class="vuln-count" style="color:var(--blue)">23</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dash-grid">
+            <!-- Radar chart -->
+            <div class="dash-card">
+              <div class="dash-card-title">Threat Vectors</div>
+              <div class="radar-chart">
+                <svg viewBox="0 0 100 100">
+                  <polygon class="radar-grid" points="50,10 90,35 90,65 50,90 10,65 10,35"/>
+                  <polygon class="radar-grid" points="50,22 78,40 78,60 50,78 22,60 22,40"/>
+                  <polygon class="radar-grid" points="50,34 66,45 66,55 50,66 34,55 34,45"/>
+                  <polygon class="radar-poly" points="50,15 85,38 75,62 50,82 18,58 25,35"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Status & mini bars -->
+            <div class="dash-card">
+              <div class="dash-card-title">System Status</div>
+              <div class="status-list">
+                <div class="status-item">
+                  <span class="status-dot green"></span> Firewall Active
+                </div>
+                <div class="status-item">
+                  <span class="status-dot green"></span> SSL/TLS Valid
+                </div>
+                <div class="status-item">
+                  <span class="status-dot yellow"></span> Headers Partial
+                </div>
+                <div class="status-item">
+                  <span class="status-dot green"></span> DNS Secure
+                </div>
+              </div>
+              <div class="mini-bars" style="margin-top:12px">
+                <div class="mini-bar" style="height:60%"></div>
+                <div class="mini-bar" style="height:85%"></div>
+                <div class="mini-bar" style="height:45%"></div>
+                <div class="mini-bar" style="height:70%"></div>
+                <div class="mini-bar" style="height:90%"></div>
+                <div class="mini-bar" style="height:55%"></div>
+                <div class="mini-bar" style="height:75%"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="platform-visual">
-      <div class="pv-card reveal">
-        <div class="pv-dot dot-green"></div>
-        <div class="pv-info">
-          <h5>AI Recon Engine</h5>
-          <p>Mapping attack surface...</p>
-        </div>
-        <div class="pv-stat">1,247 assets</div>
-      </div>
-      <div class="pv-card reveal" style="transition-delay:.1s">
-        <div class="pv-dot dot-blue"></div>
-        <div class="pv-info">
-          <h5>Exploit Chain Generator</h5>
-          <p>Chaining vulnerabilities...</p>
-        </div>
-        <div class="pv-stat">14 chains</div>
-      </div>
-      <div class="pv-card reveal" style="transition-delay:.2s">
-        <div class="pv-dot dot-yellow"></div>
-        <div class="pv-info">
-          <h5>Threat Correlation AI</h5>
-          <p>Matching CVEs to environment...</p>
-        </div>
-        <div class="pv-stat">3 critical</div>
-      </div>
-      <div class="pv-card reveal" style="transition-delay:.3s">
-        <div class="pv-dot dot-green"></div>
-        <div class="pv-info">
-          <h5>Remediation Advisor</h5>
-          <p>Generating fix roadmap...</p>
-        </div>
-        <div class="pv-stat">Ready</div>
-      </div>
-      <div class="pv-card reveal" style="transition-delay:.4s">
-        <div class="pv-dot dot-blue"></div>
-        <div class="pv-info">
-          <h5>Compliance Mapper</h5>
-          <p>GDPR · ISO 27001 · NIS2</p>
-        </div>
-        <div class="pv-stat">98% pass</div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- WHY DEVSPIRE -->
-<section id="why">
-  <div class="section-inner">
-    <div class="section-head center">
-      <span class="section-label">Why DevSpire</span>
-      <h2 class="section-title">Built for the Demands<br>of Modern Security</h2>
+  <!-- ═══ TERMINAL / SCANNER ═══ -->
+  <section class="terminal-section" id="scanner">
+    <div class="section-header">
+      <span class="section-badge">AI Scanner</span>
+      <h2>Run a Live Security Scan</h2>
+      <p>Enter any domain to launch an AI-powered vulnerability assessment in real time.</p>
     </div>
-    <div class="why-grid">
-      <div class="why-card reveal">
-        <div class="why-icon">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.14"/>
-          </svg>
+    <div class="terminal-container">
+      <div class="terminal-input-row">
+        <input type="text" id="target-url" placeholder="e.g. example.com" aria-label="Target URL" onkeydown="if(event.key==='Enter')startAssessment()"/>
+        <button class="btn-primary" onclick="startAssessment()">Scan Target</button>
+      </div>
+      <div class="terminal">
+        <div class="terminal-chrome">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">devspire-terminal</span>
         </div>
-        <h3>AI-First Approach</h3>
-        <p>Our AI engine runs thousands of automated checks simultaneously, delivering results faster and at scale — without sacrificing accuracy.</p>
-      </div>
-      <div class="why-card reveal" style="transition-delay:.1s">
-        <div class="why-icon">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-        </div>
-        <h3>EU Compliance Experts</h3>
-        <p>Headquartered in Dublin, we specialise in GDPR, NIS2, and ISO 27001 — helping European organisations meet their regulatory obligations.</p>
-      </div>
-      <div class="why-card reveal" style="transition-delay:.2s">
-        <div class="why-icon">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12 6 12 12 16 14"/>
-          </svg>
-        </div>
-        <h3>24/7 Incident Response</h3>
-        <p>Breaches don't follow business hours. Our response team is on call around the clock, ready to contain and remediate active incidents.</p>
-      </div>
-      <div class="why-card reveal" style="transition-delay:.3s">
-        <div class="why-icon">
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-        </div>
-        <h3>Certified Team</h3>
-        <p>OSCP, CISSP, CEH, and CREST-certified professionals with experience across finance, healthcare, critical infrastructure, and technology.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SEGMENTS -->
-<section id="segments">
-  <div class="section-inner">
-    <div class="section-head center">
-      <span class="section-label">Who We Serve</span>
-      <h2 class="section-title">Security Solutions for<br>Every Organisation</h2>
-      <p class="section-sub">Whether you're a multinational corporation, a growing startup, or a government body, DevSpire has a tailored security programme for your needs.</p>
-    </div>
-    <div class="segments-grid">
-      <div class="seg-card seg-card-enterprise reveal">
-        <span class="seg-icon">🏢</span>
-        <h3>Enterprise</h3>
-        <p>Comprehensive security programmes for large organisations with complex environments, regulatory requirements, and high-value assets.</p>
-        <ul class="seg-features">
-          <li>Dedicated security team</li>
-          <li>Continuous monitoring & assessment</li>
-          <li>Custom AI threat models</li>
-          <li>Board-level reporting</li>
-        </ul>
-      </div>
-      <div class="seg-card seg-card-smb reveal" style="transition-delay:.1s">
-        <span class="seg-icon">🚀</span>
-        <h3>SMB & Startups</h3>
-        <p>Affordable, scalable security packages designed for tech companies, SaaS platforms, and fintech firms protecting customer data.</p>
-        <ul class="seg-features">
-          <li>Startup-friendly pricing</li>
-          <li>Automated pentesting platform</li>
-          <li>SOC 2 & ISO 27001 readiness</li>
-          <li>Developer security training</li>
-        </ul>
-      </div>
-      <div class="seg-card seg-card-gov reveal" style="transition-delay:.2s">
-        <span class="seg-icon">🏛️</span>
-        <h3>Government & CNI</h3>
-        <p>Hardened security for public sector organisations and critical national infrastructure, meeting the strictest government standards.</p>
-        <ul class="seg-features">
-          <li>NIS2 Directive compliance</li>
-          <li>OT/ICS security assessments</li>
-          <li>Security clearance staff</li>
-          <li>Classified environment support</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROCESS -->
-<section id="process">
-  <div class="section-inner">
-    <div class="section-head center">
-      <span class="section-label">How It Works</span>
-      <h2 class="section-title">From First Contact<br>to Full Remediation</h2>
-    </div>
-    <div class="process-grid">
-      <div class="process-step reveal">
-        <div class="step-num">01</div>
-        <h3>Assess</h3>
-        <p>We analyse your environment, define scope, and deploy our AI engine for rapid initial reconnaissance and asset discovery.</p>
-      </div>
-      <div class="process-step reveal" style="transition-delay:.1s">
-        <div class="step-num">02</div>
-        <h3>Plan</h3>
-        <p>A tailored attack strategy is generated — combining automated AI chains and manual expert testing for maximum coverage.</p>
-      </div>
-      <div class="process-step reveal" style="transition-delay:.2s">
-        <div class="step-num">03</div>
-        <h3>Execute</h3>
-        <p>Our AI agents and red team execute the assessment, exploiting vulnerabilities and documenting every finding with full evidence.</p>
-      </div>
-      <div class="process-step reveal" style="transition-delay:.3s">
-        <div class="step-num">04</div>
-        <h3>Report & Fix</h3>
-        <p>Receive clear, prioritised reports with step-by-step remediation guidance. We validate fixes and provide a clean re-test certificate.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section id="testimonials">
-  <div class="section-inner">
-    <div class="section-head center">
-      <span class="section-label">Client Stories</span>
-      <h2 class="section-title">Trusted by Security-Conscious<br>Organisations Across Europe</h2>
-    </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card reveal">
-        <div class="stars">★★★★★</div>
-        <div class="quote-icon">"</div>
-        <p class="testimonial-text">DevSpire's AI engine found 3 critical vulnerabilities in our payment infrastructure that our internal team had missed for over a year. The automated reports were clear enough for our board to understand the risk immediately.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">MO</div>
-          <div>
-            <div class="author-name">Michael O'Brien</div>
-            <div class="author-role">CISO, FinanceCore Ireland</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card reveal" style="transition-delay:.1s">
-        <div class="stars">★★★★★</div>
-        <div class="quote-icon">"</div>
-        <p class="testimonial-text">As a Series B fintech, we needed to achieve ISO 27001 certification fast. DevSpire mapped our entire compliance gap in 72 hours and had us audit-ready in 6 weeks. Exceptional service and incredibly professional team.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">SK</div>
-          <div>
-            <div class="author-name">Sarah Kinsella</div>
-            <div class="author-role">CTO, Paylink Technologies</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card reveal" style="transition-delay:.2s">
-        <div class="stars">★★★★★</div>
-        <div class="quote-icon">"</div>
-        <p class="testimonial-text">Their red team exercise was the most realistic adversary simulation we've ever had. They breached our physical perimeter and our network within 48 hours — a wake-up call that transformed our entire security posture.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">JM</div>
-          <div>
-            <div class="author-name">James Murphy</div>
-            <div class="author-role">Head of IT Security, Dublin Port Authority</div>
-          </div>
+        <div id="terminal-body">
+          <div class="term-line"><span class="term-prompt">$</span><span class="term-output"> Ready. Enter a target to begin scan...</span></div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="hero-grid"></div>
-  <div class="contact-inner">
-    <div class="contact-info">
-      <span class="section-label platform-label">Get in Touch</span>
-      <h2 class="section-title contact-title">Start Your Free<br>Security Assessment</h2>
-      <p class="section-sub contact-sub">Tell us about your organisation and we'll schedule a complimentary 30-minute security consultation with one of our senior engineers.</p>
-      <div class="contact-details">
-
-        <div class="contact-item">
-          <div class="ci-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-          </div>
-          <div>
-            <div class="ci-label">EMAIL</div>
-            <div class="ci-value">security@devspire.ie</div>
-          </div>
+  <!-- ═══ FEATURES / SERVICES ═══ -->
+  <section class="features-section" id="services">
+    <div class="section-header" style="text-align:center;">
+      <span class="section-badge">What We Do</span>
+      <h2>AI-Driven Security Suite</h2>
+      <p>Enterprise-grade offensive security, fully automated and continuously running.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-
+        <h3>Automated Pentesting</h3>
+        <p>AI agents simulate real-world attacks across your infrastructure, APIs, and web applications around the clock.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h3>AI Threat Detection</h3>
+        <p>Machine learning models trained on millions of threat signatures detect zero-day exploits and anomalous behaviour.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Continuous Monitoring</h3>
+        <p>24/7 surveillance of your attack surface with instant alerts when new vulnerabilities or exposures appear.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <h3>Compliance Reports</h3>
+        <p>Generate audit-ready reports for GDPR, ISO 27001, SOC 2, and PCI DSS with one click.</p>
       </div>
     </div>
-    <div class="contact-form reveal">
-      <form id="contactForm" onsubmit="handleSubmit(event)">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="cf-first-name">First Name</label>
-            <input type="text" id="cf-first-name" name="first_name" placeholder="John" required autocomplete="given-name" />
-          </div>
-          <div class="form-group">
-            <label for="cf-last-name">Last Name</label>
-            <input type="text" id="cf-last-name" name="last_name" placeholder="Smith" required autocomplete="family-name" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="cf-email">Work Email</label>
-          <input type="email" id="cf-email" name="email" placeholder="john@company.com" required autocomplete="email" />
-        </div>
-        <div class="form-group">
-          <label for="cf-company">Company</label>
-          <input type="text" id="cf-company" name="company" placeholder="Your Organisation" required autocomplete="organization" />
-        </div>
-        <div class="form-group">
-          <label for="cf-service">Service of Interest</label>
-          <select id="cf-service" name="service">
-            <option value="">Select a service...</option>
-            <option>Penetration Testing</option>
-            <option>Red Team Operations</option>
-            <option>AI-Powered Security</option>
-            <option>Cloud & Application Security</option>
-            <option>Incident Response</option>
-            <option>Threat Intelligence</option>
-            <option>Compliance & GDPR</option>
-            <option>Full Security Programme</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="cf-message">Tell us about your needs</label>
-          <textarea id="cf-message" name="message" placeholder="Describe your environment, current concerns, or what you'd like to assess..."></textarea>
-        </div>
-        <button type="submit" class="form-submit" id="cf-submit">Request Free Assessment →</button>
-      </form>
-      <div class="form-success" id="formSuccess">
-        <svg class="form-success-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-          <polyline points="22 4 12 14.01 9 11.01"/>
-        </svg>
-        <h3 class="form-success-title">Request Received!</h3>
-        <p class="form-success-text">A senior DevSpire engineer will contact you within 24 hours to schedule your free consultation.</p>
+  </section>
+
+  <!-- ═══ HOW IT WORKS ═══ -->
+  <section class="how-section" id="how-it-works">
+    <div class="section-header" style="text-align:center;">
+      <span class="section-badge">How It Works</span>
+      <h2>Three Steps to Secure</h2>
+      <p>From target to full report in minutes, not weeks.</p>
+    </div>
+    <div class="steps-row">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3>Enter Target</h3>
+        <p>Provide the domain, IP address, or scope you want assessed.</p>
+      </div>
+      <div class="step-connector">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3>AI Scans</h3>
+        <p>Our AI agents run 10+ security modules in parallel, simulating real attacks.</p>
+      </div>
+      <div class="step-connector">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3>Get Report</h3>
+        <p>Receive a detailed PDF report with prioritised findings and remediation steps.</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+  </main>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <a href="#hero" class="logo">
-          <img src="logo.jpeg" alt="DevSpire" class="logo-img logo-img-footer" />
-        </a>
-        <p>Ireland's leading AI-powered cybersecurity firm, protecting organisations from the threats of tomorrow — today.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Services</h4>
-        <ul>
-          <li><a href="#services">Penetration Testing</a></li>
-          <li><a href="#services">Red Team Ops</a></li>
-          <li><a href="#services">AI Security</a></li>
-          <li><a href="#services">Cloud & AppSec</a></li>
-          <li><a href="#services">Incident Response</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#why">About DevSpire</a></li>
-          <li><a href="#platform">AI Platform</a></li>
-          <li><a href="#testimonials">Case Studies</a></li>
-          <li><a href="#contact">Contact Us</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <p class="footer-legal-note">Legal documents available upon request — <a href="mailto:security@devspire.ie">security@devspire.ie</a></p>
-        <ul>
-          <li><span>Privacy Policy</span></li>
-          <li><span>Terms of Service</span></li>
-          <li><span>GDPR Compliance</span></li>
-          <li><span>Responsible Disclosure</span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p class="footer-copy">© 2026 DevSpire Limited. Registered in Ireland. All rights reserved.</p>
-      <div class="footer-certs">
-        <span class="cert-badge">CREST</span>
-        <span class="cert-badge">ISO 27001</span>
-        <span class="cert-badge">OSCP</span>
-        <span class="cert-badge">GDPR</span>
-      </div>
-    </div>
-  </div>
-</footer>
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <p>&copy; 2024 <a href="#">DevSpire</a>. All rights reserved. AI-Powered Cybersecurity &mdash; Dublin, Ireland.</p>
+  </footer>
 
-<script>
-  /* ── Helpers ── */
-  function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
-  }
-
-  /* ── Scroll reveal (single shared observer) ── */
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
-    });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-  /* ── Counter animation ── */
-  function animateCounter(el) {
-    const target = parseInt(el.dataset.target);
-    const duration = 1800;
-    const start = performance.now();
-    const update = (now) => {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      el.textContent = Math.round(eased * target);
-      if (progress < 1) requestAnimationFrame(update);
-    };
-    requestAnimationFrame(update);
-  }
-
-  const statsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.counter').forEach(animateCounter);
-        statsObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.5 });
-
-  const statsSection = document.getElementById('stats');
-  if (statsSection) statsObserver.observe(statsSection);
-
-  /* ── Mobile menu toggle with aria + hamburger animation ── */
-  function toggleMenu() {
-    const menu = document.getElementById('mobile-menu');
-    const hamburger = document.getElementById('hamburger');
-    const isOpen = menu.classList.toggle('open');
-    hamburger.classList.toggle('active', isOpen);
-    hamburger.setAttribute('aria-expanded', String(isOpen));
-  }
-
-  // Close menu on outside click
-  document.addEventListener('click', (e) => {
-    const menu = document.getElementById('mobile-menu');
-    const hamburger = document.getElementById('hamburger');
-    if (menu.classList.contains('open') && !menu.contains(e.target) && !hamburger.contains(e.target)) {
-      toggleMenu();
-    }
-  });
-
-  // Close menu on ESC
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      const menu = document.getElementById('mobile-menu');
-      if (menu.classList.contains('open')) toggleMenu();
-    }
-  });
-
-  /* ── Form submit with loading state ── */
-  function handleSubmit(e) {
-    e.preventDefault();
-    const form = document.getElementById('contactForm');
-    const success = document.getElementById('formSuccess');
-    const btn = document.getElementById('cf-submit');
-
-    // Show loading state
-    btn.disabled = true;
-    btn.textContent = 'Sending...';
-
-    // Collect form data for future backend integration
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-
-    // Simulate network delay then show success
-    setTimeout(() => {
-      form.style.display = 'none';
-      success.style.display = 'block';
-    }, 800);
-  }
-
-  /* ── Terminal scanner (XSS-safe, graceful fallback) ── */
-  const DEVSPIRE_API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5000'
-    : '';
-
-  let activePoll = null;
-
-  async function startAssessment() {
-    const targetInput = document.getElementById('target-url');
-    const target = targetInput.value.trim();
-    if (!target) { targetInput.focus(); return; }
-
-    const termBody = document.getElementById('terminal-body');
-    termBody.innerHTML = '';
-
-    if (activePoll) { clearInterval(activePoll); activePoll = null; }
-
-    const addLine = (text, type = 'output') => {
-      const line = document.createElement('div');
-      line.className = 'term-line';
-      const safe = escapeHtml(text);
-      if (type === 'success') line.innerHTML = '<span class="term-success">\u2714 ' + safe + '</span>';
-      else if (type === 'warn') line.innerHTML = '<span class="term-warn">\u26A0 ' + safe + '</span>';
-      else if (type === 'cmd') line.innerHTML = '<span class="term-prompt">$</span><span class="term-cmd">' + safe + '</span>';
-      else line.innerHTML = '<span class="term-output">' + safe + '</span>';
-      termBody.appendChild(line);
-      termBody.scrollTop = termBody.scrollHeight;
-    };
-
-    // Validate input — reject localhost, private IPs
-    const cleaned = target.replace(/^https?:\/\//, '').split('/')[0].split(':')[0];
-    if (/^(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|0\.0\.0\.0|::1)/.test(cleaned)) {
-      addLine('Error: scanning private/local addresses is not allowed.', 'warn');
-      return;
+  <!-- ═══ JAVASCRIPT ═══ -->
+  <script>
+    function escapeHtml(str) {
+        const d = document.createElement('div');
+        d.appendChild(document.createTextNode(str));
+        return d.innerHTML;
     }
 
-    addLine('devspire scan --target ' + escapeHtml(target) + ' --mode full', 'cmd');
-    addLine('Initialising AI threat model...');
-
-    if (!DEVSPIRE_API) {
-      await demoScan(addLine, target);
-      return;
-    }
-
-    try {
-      addLine('Running 10 security modules in parallel...');
-      addLine('This may take 15-30 seconds...');
-
-      const response = await fetch(DEVSPIRE_API + '/api/scan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ target })
-      });
-
-      if (!response.ok) {
-        const err = await response.json().catch(() => ({}));
-        addLine('Error: ' + (err.detail || 'Scan failed (' + response.status + ')'), 'warn');
-        return;
-      }
-
-      const scanData = await response.json();
-
-      if (scanData.status === 'completed') {
-        const scanId = scanData.scan_id;
-        addLine('Scan completed successfully!', 'success');
-        addLine('');
-
-        const summary = scanData.results.summary;
-        const modules = scanData.results.modules;
-
-        if (summary.critical > 0) addLine('CRITICAL: ' + summary.critical + ' findings', 'warn');
-        if (summary.high > 0) addLine('HIGH: ' + summary.high + ' findings', 'warn');
-        if (summary.medium > 0) addLine('MEDIUM: ' + summary.medium + ' findings', 'warn');
-        if (summary.low > 0) addLine('LOW: ' + summary.low + ' findings', 'output');
-        if (summary.info > 0) addLine('INFO: ' + summary.info + ' findings', 'output');
-
-        const portData = modules.port_scan;
-        if (portData && portData.open_ports && portData.open_ports.length) {
-          addLine('Open ports: ' + portData.open_ports.map(p => p.port + ' (' + p.service + ')').join(', '));
-        }
-
-        const techData = modules.tech_detect;
-        if (techData && techData.technologies) {
-          const techs = Object.values(techData.technologies).flat();
-          if (techs.length) addLine('Technologies: ' + techs.join(', '));
-        }
-
-        addLine('');
-        for (const [modName, modData] of Object.entries(modules)) {
-          if (modData.findings && modData.findings.length > 0) {
-            modData.findings.forEach(f => {
-              const sevType = (f.severity === 'critical' || f.severity === 'high') ? 'warn' : 'output';
-              addLine('[' + f.severity.toUpperCase() + '] ' + f.title, sevType);
-            });
-          }
-        }
-
-        addLine('');
-        addLine('Report generated — report_' + escapeHtml(scanId) + '.pdf', 'success');
-        const btn = document.createElement('button');
-        btn.textContent = 'Download PDF Report';
-        btn.className = 'btn-primary';
-        btn.style.marginTop = '10px';
-        btn.onclick = () => { window.location.href = DEVSPIRE_API + '/api/report/' + encodeURIComponent(scanId); };
-        termBody.appendChild(btn);
-      } else if (scanData.status === 'error') {
-        addLine('Scan failed: ' + (scanData.error || 'Unknown error'), 'warn');
-      }
-
-    } catch (e) {
-      addLine('Could not reach DevSpire API. Running demo scan...', 'warn');
-      await demoScan(addLine, target);
-    }
-  }
-
-  /* ── Demo scan for when backend is unavailable ── */
-  async function demoScan(addLine, target) {
-    const steps = [
-      { text: 'Resolving target: ' + escapeHtml(target), delay: 600 },
-      { text: 'Running port discovery (TCP SYN)...', delay: 900 },
-      { text: 'Found 4 open ports: 22, 80, 443, 8080', delay: 700 },
-      { text: 'Fingerprinting services...', delay: 800 },
-      { text: 'SSH OpenSSH 8.9 detected on :22', delay: 400, type: 'output' },
-      { text: 'HTTPS (TLS 1.3) on :443', delay: 400, type: 'success' },
-      { text: 'HTTP redirect missing on :80', delay: 400, type: 'warn' },
-      { text: 'Running vulnerability assessment...', delay: 1000 },
-      { text: 'CVE-2024-3094 — Not vulnerable', delay: 500, type: 'success' },
-      { text: 'Missing security headers (X-Frame-Options, CSP)', delay: 500, type: 'warn' },
-      { text: 'Weak cipher suites detected (TLS_RSA_WITH_AES_128_CBC_SHA)', delay: 500, type: 'warn' },
-      { text: 'AI analysis complete — 2 medium, 1 low severity findings', delay: 700, type: 'success' },
-      { text: 'Full report available upon engagement. Contact us for details.', delay: 400, type: 'success' }
-    ];
-
-    for (const step of steps) {
-      await new Promise(r => setTimeout(r, step.delay));
-      addLine(step.text, step.type || 'output');
-    }
-  }
-
-  /* ── Smooth scroll for nav links ── */
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      const href = link.getAttribute('href');
-      const target = document.querySelector(href);
-      if (target) {
+    function handleSubmit(e) {
         e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-</script>
-<script src="premium.js"></script>
+        const form = e.target;
+        const success = document.getElementById('form-success');
+        form.style.display = 'none';
+        success.style.display = 'block';
+    }
+
+    const DEVSPIRE_API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:5000'
+        : '';
+
+    let activePoll = null;
+
+    async function startAssessment() {
+        const targetInput = document.getElementById('target-url');
+        const target = targetInput.value.trim();
+        if (!target) { targetInput.focus(); return; }
+
+        const termBody = document.getElementById('terminal-body');
+        termBody.innerHTML = '';
+
+        if (activePoll) { clearInterval(activePoll); activePoll = null; }
+
+        const addLine = (text, type = 'output') => {
+          const line = document.createElement('div');
+          line.className = 'term-line';
+          const safe = escapeHtml(text);
+          if (type === 'success') line.innerHTML = '<span class="term-success">' + safe + '</span>';
+          else if (type === 'warn') line.innerHTML = '<span class="term-warn">' + safe + '</span>';
+          else if (type === 'cmd') line.innerHTML = '<span class="term-prompt">$</span><span class="term-cmd">' + safe + '</span>';
+          else line.innerHTML = '<span class="term-output">' + safe + '</span>';
+          termBody.appendChild(line);
+          termBody.scrollTop = termBody.scrollHeight;
+        };
+
+        const cleaned = target.replace(/^https?:\/\//, '').split('/')[0].split(':')[0];
+        if (/^(localhost|127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|0\.0\.0\.0|::1)/.test(cleaned)) {
+          addLine('Error: scanning private/local addresses is not allowed.', 'warn');
+          return;
+        }
+
+        addLine('devspire scan --target ' + escapeHtml(target) + ' --mode full', 'cmd');
+        addLine('Initialising AI threat model...');
+
+        if (!DEVSPIRE_API) {
+          await demoScan(addLine, target);
+          return;
+        }
+
+        try {
+          addLine('Running 10 security modules in parallel...');
+          addLine('This may take 15-30 seconds...');
+
+          const response = await fetch(DEVSPIRE_API + '/api/scan', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ target })
+          });
+
+          if (!response.ok) {
+            const err = await response.json().catch(() => ({}));
+            addLine('Error: ' + (err.detail || 'Scan failed (' + response.status + ')'), 'warn');
+            return;
+          }
+
+          const scanData = await response.json();
+
+          if (scanData.status === 'completed') {
+            const scanId = scanData.scan_id;
+            addLine('Scan completed successfully!', 'success');
+            addLine('');
+
+            const summary = scanData.results.summary;
+            const modules = scanData.results.modules;
+
+            if (summary.critical > 0) addLine('CRITICAL: ' + summary.critical + ' findings', 'warn');
+            if (summary.high > 0) addLine('HIGH: ' + summary.high + ' findings', 'warn');
+            if (summary.medium > 0) addLine('MEDIUM: ' + summary.medium + ' findings', 'warn');
+            if (summary.low > 0) addLine('LOW: ' + summary.low + ' findings', 'output');
+            if (summary.info > 0) addLine('INFO: ' + summary.info + ' findings', 'output');
+
+            const portData = modules.port_scan;
+            if (portData && portData.open_ports && portData.open_ports.length) {
+              addLine('Open ports: ' + portData.open_ports.map(p => p.port + ' (' + p.service + ')').join(', '));
+            }
+
+            const techData = modules.tech_detect;
+            if (techData && techData.technologies) {
+              const techs = Object.values(techData.technologies).flat();
+              if (techs.length) addLine('Technologies: ' + techs.join(', '));
+            }
+
+            addLine('');
+            for (const [modName, modData] of Object.entries(modules)) {
+              if (modData.findings && modData.findings.length > 0) {
+                modData.findings.forEach(f => {
+                  const sevType = (f.severity === 'critical' || f.severity === 'high') ? 'warn' : 'output';
+                  addLine('[' + f.severity.toUpperCase() + '] ' + f.title, sevType);
+                });
+              }
+            }
+
+            addLine('');
+            addLine('Report generated — report_' + escapeHtml(scanId) + '.pdf', 'success');
+            const btn = document.createElement('button');
+            btn.textContent = 'Download PDF Report';
+            btn.className = 'btn-primary';
+            btn.style.marginTop = '10px';
+            btn.onclick = () => { window.location.href = DEVSPIRE_API + '/api/report/' + encodeURIComponent(scanId); };
+            termBody.appendChild(btn);
+          } else if (scanData.status === 'error') {
+            addLine('Scan failed: ' + (scanData.error || 'Unknown error'), 'warn');
+          }
+
+        } catch (e) {
+          addLine('Could not reach DevSpire API. Running demo scan...', 'warn');
+          await demoScan(addLine, target);
+        }
+    }
+
+    async function demoScan(addLine, target) {
+        const steps = [
+          { text: 'Resolving target: ' + escapeHtml(target), delay: 600 },
+          { text: 'Running port discovery (TCP SYN)...', delay: 900 },
+          { text: 'Found 4 open ports: 22, 80, 443, 8080', delay: 700 },
+          { text: 'Fingerprinting services...', delay: 800 },
+          { text: 'SSH OpenSSH 8.9 detected on :22', delay: 400, type: 'output' },
+          { text: 'HTTPS (TLS 1.3) on :443', delay: 400, type: 'success' },
+          { text: 'HTTP redirect missing on :80', delay: 400, type: 'warn' },
+          { text: 'Running vulnerability assessment...', delay: 1000 },
+          { text: 'CVE-2024-3094 — Not vulnerable', delay: 500, type: 'success' },
+          { text: 'Missing security headers (X-Frame-Options, CSP)', delay: 500, type: 'warn' },
+          { text: 'Weak cipher suites detected (TLS_RSA_WITH_AES_128_CBC_SHA)', delay: 500, type: 'warn' },
+          { text: 'AI analysis complete — 2 medium, 1 low severity findings', delay: 700, type: 'success' },
+          { text: 'Full report available upon engagement. Contact us for details.', delay: 400, type: 'success' }
+        ];
+
+        for (const step of steps) {
+          await new Promise(r => setTimeout(r, step.delay));
+          addLine(step.text, step.type || 'output');
+        }
+    }
+  </script>
 </body>
 </html>
