@@ -1883,88 +1883,76 @@
     addLine('Initialising AI threat model...');
 
     if (!DEVSPIRE_API) {
-      // Demo mode when no backend is configured
       await demoScan(addLine, target);
       return;
     }
 
     try {
+      addLine('Running 10 security modules in parallel...');
+      addLine('This may take 15-30 seconds...');
+
       const response = await fetch(DEVSPIRE_API + '/api/scan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ target })
       });
-      const data = await response.json();
-      const scanId = data.scan_id;
 
-      activePoll = setInterval(async () => {
-        try {
-          const res = await fetch(DEVSPIRE_API + '/api/scan/' + encodeURIComponent(scanId));
-          const scanData = await res.json();
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        addLine('Error: ' + (err.detail || 'Scan failed (' + response.status + ')'), 'warn');
+        return;
+      }
 
-          if (scanData.status === 'completed') {
-            clearInterval(activePoll);
-            activePoll = null;
-            addLine('Scan completed successfully!', 'success');
-            addLine('');
+      const scanData = await response.json();
 
-            const summary = scanData.results.summary;
-            const modules = scanData.results.modules;
+      if (scanData.status === 'completed') {
+        const scanId = scanData.scan_id;
+        addLine('Scan completed successfully!', 'success');
+        addLine('');
 
-            // Show summary
-            if (summary.critical > 0) addLine('CRITICAL: ' + summary.critical + ' findings', 'warn');
-            if (summary.high > 0) addLine('HIGH: ' + summary.high + ' findings', 'warn');
-            if (summary.medium > 0) addLine('MEDIUM: ' + summary.medium + ' findings', 'warn');
-            if (summary.low > 0) addLine('LOW: ' + summary.low + ' findings', 'output');
-            if (summary.info > 0) addLine('INFO: ' + summary.info + ' findings', 'output');
+        const summary = scanData.results.summary;
+        const modules = scanData.results.modules;
 
-            // Show open ports
-            const portData = modules.port_scan;
-            if (portData && portData.open_ports) {
-              addLine('Open ports: ' + portData.open_ports.map(p => p.port + ' (' + p.service + ')').join(', '));
-            }
+        if (summary.critical > 0) addLine('CRITICAL: ' + summary.critical + ' findings', 'warn');
+        if (summary.high > 0) addLine('HIGH: ' + summary.high + ' findings', 'warn');
+        if (summary.medium > 0) addLine('MEDIUM: ' + summary.medium + ' findings', 'warn');
+        if (summary.low > 0) addLine('LOW: ' + summary.low + ' findings', 'output');
+        if (summary.info > 0) addLine('INFO: ' + summary.info + ' findings', 'output');
 
-            // Show tech stack
-            const techData = modules.tech_detect;
-            if (techData && techData.technologies) {
-              const techs = Object.values(techData.technologies).flat();
-              if (techs.length) addLine('Technologies: ' + techs.join(', '));
-            }
-
-            // Show top findings
-            addLine('');
-            for (const [modName, modData] of Object.entries(modules)) {
-              if (modData.findings && modData.findings.length > 0) {
-                modData.findings.forEach(f => {
-                  const sevType = (f.severity === 'critical' || f.severity === 'high') ? 'warn' : 'output';
-                  addLine('[' + f.severity.toUpperCase() + '] ' + f.title, sevType);
-                });
-              }
-            }
-
-            addLine('');
-            addLine('Report generated — report_' + escapeHtml(scanId) + '.pdf', 'success');
-            const btn = document.createElement('button');
-            btn.textContent = 'Download PDF Report';
-            btn.className = 'btn-primary';
-            btn.style.marginTop = '10px';
-            btn.onclick = () => { window.location.href = DEVSPIRE_API + '/api/report/' + encodeURIComponent(scanId); };
-            termBody.appendChild(btn);
-          } else if (scanData.status === 'error') {
-            clearInterval(activePoll);
-            activePoll = null;
-            addLine('Scan failed: ' + (scanData.error || 'Unknown error'), 'warn');
-          } else {
-            addLine('Scanning... ' + (scanData.progress || 0) + '%');
-          }
-        } catch {
-          clearInterval(activePoll);
-          activePoll = null;
-          addLine('Connection lost during scan. Please retry.', 'warn');
+        const portData = modules.port_scan;
+        if (portData && portData.open_ports && portData.open_ports.length) {
+          addLine('Open ports: ' + portData.open_ports.map(p => p.port + ' (' + p.service + ')').join(', '));
         }
-      }, 3000);
 
-    } catch {
+        const techData = modules.tech_detect;
+        if (techData && techData.technologies) {
+          const techs = Object.values(techData.technologies).flat();
+          if (techs.length) addLine('Technologies: ' + techs.join(', '));
+        }
+
+        addLine('');
+        for (const [modName, modData] of Object.entries(modules)) {
+          if (modData.findings && modData.findings.length > 0) {
+            modData.findings.forEach(f => {
+              const sevType = (f.severity === 'critical' || f.severity === 'high') ? 'warn' : 'output';
+              addLine('[' + f.severity.toUpperCase() + '] ' + f.title, sevType);
+            });
+          }
+        }
+
+        addLine('');
+        addLine('Report generated — report_' + escapeHtml(scanId) + '.pdf', 'success');
+        const btn = document.createElement('button');
+        btn.textContent = 'Download PDF Report';
+        btn.className = 'btn-primary';
+        btn.style.marginTop = '10px';
+        btn.onclick = () => { window.location.href = DEVSPIRE_API + '/api/report/' + encodeURIComponent(scanId); };
+        termBody.appendChild(btn);
+      } else if (scanData.status === 'error') {
+        addLine('Scan failed: ' + (scanData.error || 'Unknown error'), 'warn');
+      }
+
+    } catch (e) {
       addLine('Could not reach DevSpire API. Running demo scan...', 'warn');
       await demoScan(addLine, target);
     }

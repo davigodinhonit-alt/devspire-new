@@ -1,5 +1,4 @@
 import os
-import asyncio
 import time
 from collections import defaultdict
 from fastapi import FastAPI, HTTPException, Request
@@ -36,7 +35,6 @@ _scan_timestamps: dict[str, list[float]] = defaultdict(list)
 def _check_rate_limit(client_ip: str):
     now = time.time()
     timestamps = _scan_timestamps[client_ip]
-    # Purge old entries
     _scan_timestamps[client_ip] = [t for t in timestamps if now - t < RATE_WINDOW]
     if len(_scan_timestamps[client_ip]) >= RATE_LIMIT:
         raise HTTPException(
@@ -65,27 +63,23 @@ async def health():
 
 @app.post("/api/scan")
 async def start_scan(request: Request, body: ScanRequest):
-    # 1. Validate target first — bad input doesn't count against rate limit
+    # 1. Validate
     try:
         target = validate_target(body.target)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    # 2. Rate limit only after validation passes
+    # 2. Rate limit only valid requests
     client_ip = request.client.host if request.client else "unknown"
     _check_rate_limit(client_ip)
-
-    # 3. Deduplicate — reuse running scan on same target
-    for s in scans.values():
-        if s["target"] == target and s["status"] == "running":
-            return {"scan_id": s["scan_id"], "status": "running", "message": "Scan already in progress"}
-
-    # 4. Create and launch scan
     _record_scan(client_ip)
-    scan = create_scan(target)
-    asyncio.create_task(run_scan(scan["scan_id"]))
 
-    return {"scan_id": scan["scan_id"], "status": "running"}
+    # 3. Run scan synchronously (Vercel serverless is stateless)
+    scan = create_scan(target)
+    await run_scan(scan["scan_id"])
+
+    # 4. Return completed scan with full results
+    return scans[scan["scan_id"]]
 
 
 @app.get("/api/scan/{scan_id}")

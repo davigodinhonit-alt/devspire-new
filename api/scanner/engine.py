@@ -147,7 +147,7 @@ async def run_scan(scan_id: str):
 
 async def _safe_run(func, target):
     try:
-        return await asyncio.wait_for(func(target), timeout=120)
+        return await asyncio.wait_for(func(target), timeout=15)
     except asyncio.TimeoutError:
         return {"module": func.__module__.split(".")[-1], "error": "Module timed out (120s)", "findings": []}
     except Exception as e:
