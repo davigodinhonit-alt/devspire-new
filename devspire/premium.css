@@ -1,0 +1,186 @@
+/* ════════════════════════════════════════════════════════
+   DevSpire — Cyber Terminal Premium Layer
+   Direção: "Cyber Terminal" — glitch, scanlines, grid dots
+   ════════════════════════════════════════════════════════ */
+
+/* ─── Monospace font for terminal elements ─── */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+/* ─── Cyan/emerald scroll progress bar ─── */
+#px-ds-bar {
+  position: fixed; top: 0; left: 0;
+  height: 2px; width: 0%;
+  background: linear-gradient(90deg, #0D1B2A, #00A8C8 40%, #06D6A0);
+  z-index: 9999; pointer-events: none;
+  transition: width 80ms linear;
+  box-shadow: 0 0 8px rgba(6, 214, 160, 0.5);
+}
+
+/* ─── Hero: dot grid background ─── */
+#hero {
+  position: relative;
+  isolation: isolate;
+}
+#hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(
+    circle,
+    rgba(0, 168, 200, 0.18) 1px,
+    transparent 1px
+  );
+  background-size: 30px 30px;
+  pointer-events: none; z-index: 0;
+  mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 50%,
+    black 20%, transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 50%,
+    black 20%, transparent 100%
+  );
+}
+
+/* ─── Hero title: subtle periodic glitch ─── */
+@keyframes px-ds-glitch {
+  0%,  88%, 100% { transform: none; filter: none; opacity: 1; }
+  90%  { transform: translate(-2px, 0) skewX(-1.5deg); filter: hue-rotate(80deg) brightness(1.1); }
+  92%  { transform: translate(2px, 0) skewX(1deg); filter: hue-rotate(-60deg); }
+  94%  { transform: translate(-1px, 0); filter: brightness(1.15); opacity: 0.95; }
+  96%  { transform: translate(1px, 0) skewX(-1deg); filter: hue-rotate(40deg); }
+  98%  { transform: translate(0, 1px); filter: none; }
+}
+.hero-title {
+  animation: px-ds-glitch 6s 4s infinite;
+  will-change: transform;
+}
+
+/* ─── accent-em: blinking cursor ─── */
+.accent-em::after {
+  content: '▮';
+  display: inline-block;
+  margin-left: 3px;
+  animation: px-ds-cursor 1.05s step-end infinite;
+  color: var(--emerald-light, #70E000);
+  font-size: 0.65em;
+  vertical-align: middle;
+  opacity: 0.9;
+}
+@keyframes px-ds-cursor {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ─── Terminal cards: scanline + glow border ─── */
+.terminal-card {
+  position: relative; overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease,
+              transform 0.3s cubic-bezier(0.16,1,0.3,1) !important;
+}
+.terminal-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 168, 200, 0.018) 3px,
+    rgba(0, 168, 200, 0.018) 4px
+  );
+  pointer-events: none; z-index: 1;
+}
+.terminal-card:hover {
+  border-color: rgba(0, 168, 200, 0.5) !important;
+  box-shadow: 0 0 24px rgba(0, 168, 200, 0.15),
+              0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  transform: translateY(-4px);
+}
+
+/* ─── Services grid: stagger (JS adds .px-stagger) ─── */
+.services-grid.px-stagger .card-feature,
+.services-grid.px-stagger > div,
+.services-grid.px-stagger > article {
+  opacity: 0; transform: translateY(26px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.services-grid.px-stagger > *:nth-child(1) { transition-delay: 0.00s; }
+.services-grid.px-stagger > *:nth-child(2) { transition-delay: 0.10s; }
+.services-grid.px-stagger > *:nth-child(3) { transition-delay: 0.20s; }
+.services-grid.px-stagger > *:nth-child(4) { transition-delay: 0.30s; }
+.services-grid.px-stagger > *:nth-child(5) { transition-delay: 0.40s; }
+.services-grid.px-stagger > *:nth-child(6) { transition-delay: 0.50s; }
+.services-grid.px-stagger.px-visible > div,
+.services-grid.px-stagger.px-visible > article,
+.services-grid.px-stagger.px-visible .card-feature {
+  opacity: 1; transform: none;
+}
+
+/* ─── Buttons: cyber shimmer ─── */
+.btn-primary,
+.btn-ghost {
+  position: relative; overflow: hidden;
+}
+.btn-primary::before,
+.btn-ghost::before {
+  content: '';
+  position: absolute; top: 0; left: -120%;
+  width: 55%; height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(6,214,160,0.28), transparent);
+  transform: skewX(-20deg);
+  pointer-events: none; z-index: 1;
+}
+.btn-primary:hover::before,
+.btn-ghost:hover::before {
+  animation: px-ds-shimmer 0.55s ease forwards;
+}
+@keyframes px-ds-shimmer {
+  to { left: 165%; }
+}
+
+/* ─── Nav links: cyber underline draw ─── */
+nav .nav-links a,
+nav a:not([class*="btn"]) {
+  position: relative;
+}
+nav .nav-links a::after,
+nav a:not([class*="btn"])::after {
+  content: '';
+  position: absolute; bottom: -2px; left: 0;
+  width: 0%; height: 1.5px;
+  background: linear-gradient(90deg, var(--blue, #00A8C8), var(--emerald, #06D6A0));
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+nav .nav-links a:hover::after,
+nav a:not([class*="btn"]):hover::after { width: 100%; }
+
+/* ─── Process steps: enhanced glow ring ─── */
+.process-step:hover .step-num {
+  box-shadow: 0 0 0 8px rgba(37,99,235,0.15),
+              0 0 20px rgba(0,168,200,0.35),
+              0 6px 20px rgba(37,99,235,0.4) !important;
+}
+
+/* ─── Navbar: glass on scroll ─── */
+nav.scrolled {
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  background: rgba(255,255,255,0.88) !important;
+  box-shadow: 0 1px 0 rgba(0,168,200,0.15),
+              0 4px 24px rgba(0,0,0,0.06) !important;
+}
+
+/* ─── Cyber corner brackets on .terminal-card ─── */
+.terminal-card::before {
+  content: '';
+  position: absolute; top: 10px; left: 10px;
+  width: 16px; height: 16px;
+  border-top: 1.5px solid rgba(0,168,200,0.6);
+  border-left: 1.5px solid rgba(0,168,200,0.6);
+  pointer-events: none; z-index: 2;
+  opacity: 0;
+  transform: translate(-4px,-4px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+.terminal-card:hover::before {
+  opacity: 1; transform: translate(0,0);
+}
