@@ -1,0 +1,6 @@
+api/venv
+api/__pycache__
+api/test_e2e.py
+api/Dockerfile
+api/render.yaml
+DEVSPIRE_SPEC.md
